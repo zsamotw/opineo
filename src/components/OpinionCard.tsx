@@ -5,6 +5,7 @@ import { Opinion, Comment, CommentReply, Reaction } from "../data/opinions";
 import { OpinionCardHeader } from "./OpinionCardHeader";
 import { CommentList } from "./CommentList";
 import { CommentForm } from "./CommentForm";
+import { Resume } from "./Resume";
 import { ReactionBar } from "./ReactionBar";
 import { updateOpinionComments, updateOpinionReactions } from "../lib/db";
 import { useUserId } from "../lib/useUserId";
@@ -115,6 +116,7 @@ export function OpinionCard({ opinion }: OpinionCardProps) {
       >{opinion.content}</p>
       <ReactionBar reactions={localReactions} onToggle={(type) => toggleOpinionReaction(type, userId || "")} userId={userId} />
       <div className="mt-6 border-t border-gray-100 pt-4 dark:border-gray-700">
+        <Resume comments={comments} />
         <CommentForm 
           onSubmit={handleAddComment} 
           commentCount={comments.length} 
