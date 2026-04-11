@@ -30,7 +30,7 @@ function Navbar() {
     <nav className="border-b border-gray-200 bg-white px-4 py-3 dark:border-gray-700 dark:bg-gray-800">
       <div className="mx-auto flex max-w-4xl items-center justify-between">
         <Link href="/" className="text-xl font-bold text-gray-900 dark:text-gray-100">
-          Blog
+          Opineo
         </Link>
         <div className="flex items-center gap-4">
           {user ? (

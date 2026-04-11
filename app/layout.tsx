@@ -9,8 +9,8 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "Blog",
-  description: "Aplikacja blogowa z Three.js",
+  title: "Opineo",
+  description: "",
 };
 
 export default function RootLayout({
