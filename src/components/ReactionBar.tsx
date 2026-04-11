@@ -11,8 +11,8 @@ interface ReactionBarProps {
 
 const REACTION_CONFIG = {
   appreciate: { emoji: "🦉", label: "Doceniam", activeClass: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400", inactiveClass: "bg-gray-100 text-gray-600 hover:bg-amber-50 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-amber-900/20" },
-  changed: { emoji: "🧭", label: "Zmieniłem zdanie", activeClass: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400", inactiveClass: "bg-gray-100 text-gray-600 hover:bg-purple-50 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-purple-900/20" },
-  connect: { emoji: "🧩", label: "To nas łączy", activeClass: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400", inactiveClass: "bg-gray-100 text-gray-600 hover:bg-blue-50 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-blue-900/20" },
+  changed: { emoji: "🔁", label: "Zmieniłem zdanie", activeClass: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400", inactiveClass: "bg-gray-100 text-gray-600 hover:bg-purple-50 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-purple-900/20" },
+  connect: { emoji: "🤝", label: "To nas łączy", activeClass: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400", inactiveClass: "bg-gray-100 text-gray-600 hover:bg-blue-50 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-blue-900/20" },
 } as const;
 
 const SIZE_CONFIG = {
