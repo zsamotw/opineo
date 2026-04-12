@@ -11,5 +11,5 @@ export async function POST(req) {
     body: JSON.stringify({ inputs: prompt, "parameters": { "max_new_tokens": 256, "temperature": 0.7 } })
   });
   const data = await r.json();
-  return NextResponse.json(data, { status: r.ok ? 200 : 500 });
+  return NextResponse.json(data, { status: r.ok ? 200 : 400 });
 }
