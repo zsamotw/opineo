@@ -1,6 +1,7 @@
 "use client";
 
 import { Comment } from "../data/opinions";
+import { AIAssistant } from "./AIAssistant";
 import { Likes } from "./Likes";
 import { SelectedQuotes } from "./SelectedQuotes";
 
@@ -23,6 +24,7 @@ export function Resume({ comments }: ResumeProps) {
     <div className="mt-4 space-y-2">
       <SelectedQuotes quotes={selectedQuotes} />
       <Likes likes={likes} />
+      <AIAssistant />
     </div>
   );
 }
