@@ -3,6 +3,12 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   const { comment } = await req.json();
 
+  if (!process.env.HF_TOKEN) {
+    return NextResponse.json({ 
+      error: "Brak HF_TOKEN w konfiguracji środowiska" 
+    }, { status: 500 });
+  }
+
   const prompt = `Przeanalizuj poniższy komentarz pod kątem retoryki, argumentacji i tonu emocjonalnego.
 
 KOMENTARZ: "${comment}"
@@ -15,32 +21,45 @@ Odpowiedz w języku polskim, używając naturalnego języka. Twoja odpowiedź po
 
 Bądź obiektywny i konstruktywny w analizie.`;
 
-  const r = await fetch(
-    "https://router.huggingface.co/mistralai/Mistral-7B-Instruct-v0.2",
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${process.env.HF_TOKEN}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        inputs: prompt,
-        parameters: {
-          max_new_tokens: 600,
-          temperature: 0.3,
-          return_full_text: false,
+  try {
+    const r = await fetch(
+      "https://router.huggingface.co/mistralai/Mistral-7B-Instruct-v0.2",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${process.env.HF_TOKEN}`,
+          "Content-Type": "application/json",
         },
-      }),
-    }
-  );
+        body: JSON.stringify({
+          inputs: prompt,
+          parameters: {
+            max_new_tokens: 600,
+            temperature: 0.3,
+          },
+        }),
+      }
+    );
 
-  const data = await r.json();
-  
-  if (Array.isArray(data) && data[0]?.generated_text) {
-    return NextResponse.json({ analysis: data[0].generated_text.trim() });
+    const text = await r.text();
+    
+    if (!r.ok) {
+      return NextResponse.json({ 
+        error: `HuggingFace API error: ${r.status} - ${text}` 
+      }, { status: 500 });
+    }
+
+    const data = JSON.parse(text);
+    
+    const generatedText = Array.isArray(data) 
+      ? data[0]?.generated_text 
+      : data.generated_text;
+
+    return NextResponse.json({ 
+      analysis: generatedText?.trim() || "Nie udało się przeanalizować komentarza." 
+    });
+  } catch (err) {
+    return NextResponse.json({ 
+      error: `Błąd: ${err instanceof Error ? err.message : "Nieznany błąd"}` 
+    }, { status: 500 });
   }
-  
-  return NextResponse.json({ 
-    analysis: data.generated_text?.trim() || "Nie udało się przeanalizować komentarza." 
-  }, { status: r.ok ? 200 : 500 });
 }
