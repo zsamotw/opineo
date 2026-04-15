@@ -3,64 +3,56 @@
 import { useState } from "react";
 
 interface AIAssistantProps {
-  initialPrompt?: string;
+  opinionContent?: string;
 }
 
-export function AIAssistant({ initialPrompt = "" }: AIAssistantProps) {
-  const [comment, setComment] = useState(initialPrompt);
+export function AIAssistant({ opinionContent = "" }: AIAssistantProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [out, setOut] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const send = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!comment.trim()) return;
+  const analyzeOpinion = async (content: string) => {
+    if (!content.trim()) return;
+    setLoading(true);
     setOut("Analizuję komentarz...");
     const res = await fetch("/api/generate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ comment }),
+      body: JSON.stringify({ comment: content }),
     });
     const data = await res.json();
     setOut(data.analysis || "Brak odpowiedzi.");
+    setLoading(false);
+  };
+
+  const handleToggle = () => {
+    if (!isOpen && opinionContent) {
+      analyzeOpinion(opinionContent);
+    }
+    setIsOpen(!isOpen);
   };
 
   return (
-    <details
-      open={isOpen}
-      className="mt-4 cursor-pointer rounded-lg border border-purple-200 bg-purple-50 p-3 dark:border-purple-800 dark:bg-purple-900/20"
-    >
-      <summary
-        onClick={(e) => {
-          e.preventDefault();
-          setIsOpen(!isOpen);
-        }}
-        className="flex list-none items-center justify-between text-sm font-medium text-purple-800 dark:text-purple-200"
+    <div className="mt-4 rounded-lg border border-purple-200 bg-purple-50 dark:border-purple-800 dark:bg-purple-900/20">
+      <button
+        onClick={handleToggle}
+        className="flex w-full cursor-pointer items-center justify-between p-3 text-sm font-medium text-purple-800 dark:text-purple-200"
       >
         <span>🤖 Analiza retoryczna</span>
         <span>{isOpen ? "▼" : "▶"}</span>
-      </summary>
+      </button>
       {isOpen && (
-        <form onSubmit={send} className="mt-2">
-          <textarea
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            placeholder="Wklej komentarz do analizy..."
-            rows={3}
-            className="w-full rounded border border-purple-300 px-2 py-1 text-sm dark:bg-purple-900/30 resize-none"
-          />
-          <button
-            type="submit"
-            className="mt-2 rounded bg-purple-600 px-3 py-1 text-sm text-white hover:bg-purple-700"
-          >
-            Analizuj
-          </button>
+        <div className="px-3 pb-3">
+          {loading && (
+            <p className="text-sm text-purple-600 dark:text-purple-400">Analizuję komentarz...</p>
+          )}
           {out && (
-            <pre className="mt-2 whitespace-pre-wrap text-sm text-gray-700 dark:text-gray-300">
+            <pre className="whitespace-pre-wrap text-sm text-gray-700 dark:text-gray-300">
               {out}
             </pre>
           )}
-        </form>
+        </div>
       )}
-    </details>
+    </div>
   );
 }
