@@ -7,9 +7,10 @@ import { SelectedQuotes } from "./SelectedQuotes";
 
 interface ResumeProps {
   comments: Comment[];
+  opinionContent?: string;
 }
 
-export function Resume({ comments }: ResumeProps) {
+export function Resume({ comments, opinionContent }: ResumeProps) {
   const selectedQuotes = comments
     .filter((c) => c.selectedQuote?.trim())
     .map((c) => c.selectedQuote!);
@@ -18,13 +19,11 @@ export function Resume({ comments }: ResumeProps) {
     .filter((c) => c.agree && c.disagree)
     .map((c) => c.agree);
 
-  if (selectedQuotes.length === 0 && likes.length === 0) return null;
-
   return (
     <div className="mt-4 space-y-2">
-      <SelectedQuotes quotes={selectedQuotes} />
-      <Likes likes={likes} />
-      <AIAssistant />
+      {selectedQuotes.length > 0 && <SelectedQuotes quotes={selectedQuotes} />}
+      {likes.length > 0 && <Likes likes={likes} />}
+      <AIAssistant opinionContent={opinionContent} />
     </div>
   );
 }

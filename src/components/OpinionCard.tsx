@@ -116,7 +116,7 @@ export function OpinionCard({ opinion }: OpinionCardProps) {
       >{opinion.content}</p>
       <ReactionBar reactions={localReactions} onToggle={(type) => toggleOpinionReaction(type, userId || "")} userId={userId} />
       <div className="mt-6 border-t border-gray-100 pt-4 dark:border-gray-700">
-        <Resume comments={comments} />
+        <Resume comments={comments} opinionContent={opinion.content} />
         <CommentForm 
           onSubmit={handleAddComment} 
           commentCount={comments.length} 
