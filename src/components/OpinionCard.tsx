@@ -3,8 +3,7 @@
 import { useState, useCallback } from "react";
 import { Opinion, Comment, CommentReply, Reaction } from "../data/opinions";
 import { OpinionCardHeader } from "./OpinionCardHeader";
-import { CommentList } from "./CommentList";
-import { CommentForm } from "./CommentForm";
+import { CommentsAccordion } from "./CommentsAccordion";
 import { Resume } from "./Resume";
 import { ReactionBar } from "./ReactionBar";
 import { updateOpinionComments, updateOpinionReactions } from "../lib/db";
@@ -117,24 +116,18 @@ export function OpinionCard({ opinion }: OpinionCardProps) {
       <ReactionBar reactions={localReactions} onToggle={(type) => toggleOpinionReaction(type, userId || "")} userId={userId} />
       <div className="mt-6 border-t border-gray-100 pt-4 dark:border-gray-700">
         <Resume comments={comments} opinionContent={opinion.content} />
-        <CommentForm 
-          onSubmit={handleAddComment} 
-          commentCount={comments.length} 
+        <CommentsAccordion
+          comments={comments}
+          opinionId={opinion.id}
           selectedQuote={selectedQuote}
           onDisagreeChange={setHasDisagree}
           onClearSelectedQuote={() => setSelectedQuote("")}
+          onAddComment={handleAddComment}
+          onAddReply={handleAddReply}
+          onToggleCommentReaction={handleToggleCommentReaction}
+          onToggleReplyReaction={handleToggleReplyReaction}
+          userId={userId}
         />
-        {comments.length > 0 && (
-          <div className="mt-4">
-            <CommentList
-              comments={comments}
-              onAddReply={handleAddReply}
-              onToggleReaction={handleToggleCommentReaction}
-              onToggleReplyReaction={handleToggleReplyReaction}
-              userId={userId}
-            />
-          </div>
-        )}
       </div>
     </div>
   );

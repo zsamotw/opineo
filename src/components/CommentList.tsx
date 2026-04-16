@@ -76,7 +76,7 @@ function ReplyForm({ onSubmit }: ReplyFormProps) {
         <textarea
           value={agree}
           onChange={(e) => setAgree(e.target.value)}
-          placeholder={disagree.trim() ? "Wyjaśnij jak rozumiesz tą opinie" : "Zgadzam się — świetny punkt!"}
+          placeholder={disagree.trim() ? "Napisz co cenisz w tej opini" : "Zgadzam się — świetny punkt!"}
           rows={1}
           className="w-full rounded-lg border border-green-300 bg-green-50 px-3 py-1.5 text-sm focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500 dark:border-green-700 dark:bg-green-900/20 dark:text-gray-100 dark:placeholder-gray-500"
         />
