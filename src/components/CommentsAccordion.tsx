@@ -1,36 +1,39 @@
 "use client";
 
 import { useState } from "react";
-import { Comment, CommentReply } from "../data/opinions";
+import { Comment } from "../data/opinions";
+import { useComments } from "../lib/useComments";
 import { CommentList } from "./CommentList";
 import { CommentForm } from "./CommentForm";
-import { ReactionType } from "../lib/useReactionToggle";
 
 interface CommentsAccordionProps {
-  comments: Comment[];
+  initialComments: Comment[];
   opinionId: string;
-  selectedQuote: string;
-  onDisagreeChange: (hasDisagree: boolean) => void;
-  onClearSelectedQuote: () => void;
-  onAddComment: (comment: Omit<Comment, "replies" | "reactions">) => void;
-  onAddReply: (commentId: string, reply: Omit<CommentReply, "reactions">) => void;
-  onToggleCommentReaction: (commentId: string, type: ReactionType) => void;
-  onToggleReplyReaction: (commentId: string, replyId: string, type: ReactionType) => void;
-  userId?: string;
+  selectedQuote?: string;
+  onDisagreeChange?: (hasDisagree: boolean) => void;
+  onClearSelectedQuote?: () => void;
 }
 
-export function CommentsAccordion({
-  comments,
-  selectedQuote,
+export function CommentsAccordion({ 
+  initialComments, 
+  opinionId,
+  selectedQuote: externalSelectedQuote,
   onDisagreeChange,
   onClearSelectedQuote,
-  onAddComment,
-  onAddReply,
-  onToggleCommentReaction,
-  onToggleReplyReaction,
-  userId,
 }: CommentsAccordionProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [internalSelectedQuote, setInternalSelectedQuote] = useState("");
+
+  const selectedQuote = externalSelectedQuote ?? internalSelectedQuote;
+  const setHasDisagree = (value: boolean) => {
+    onDisagreeChange?.(value);
+  };
+  const clearSelectedQuote = onClearSelectedQuote ?? (() => setInternalSelectedQuote(""));
+
+  const { comments, addComment, addReply, toggleReaction, toggleReplyReaction, userId } = useComments({
+    initialComments,
+    opinionId,
+  });
 
   return (
     <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-800/50">
@@ -44,19 +47,19 @@ export function CommentsAccordion({
       {isOpen && (
         <div className="border-t border-gray-200 px-3 pb-3 dark:border-gray-700">
           <CommentForm
-            onSubmit={onAddComment}
+            onSubmit={addComment}
             commentCount={comments.length}
             selectedQuote={selectedQuote}
-            onDisagreeChange={onDisagreeChange}
-            onClearSelectedQuote={onClearSelectedQuote}
+            onDisagreeChange={setHasDisagree}
+            onClearSelectedQuote={clearSelectedQuote}
           />
           {comments.length > 0 && (
             <div className="mt-4">
               <CommentList
                 comments={comments}
-                onAddReply={onAddReply}
-                onToggleReaction={onToggleCommentReaction}
-                onToggleReplyReaction={onToggleReplyReaction}
+                onAddReply={addReply}
+                onToggleReaction={toggleReaction}
+                onToggleReplyReaction={toggleReplyReaction}
                 userId={userId}
               />
             </div>

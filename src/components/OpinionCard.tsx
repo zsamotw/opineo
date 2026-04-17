@@ -1,21 +1,20 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { Opinion, Comment, CommentReply, Reaction } from "../data/opinions";
+import { Opinion, Reaction } from "../data/opinions";
 import { OpinionCardHeader } from "./OpinionCardHeader";
 import { CommentsAccordion } from "./CommentsAccordion";
 import { Resume } from "./Resume";
 import { ReactionBar } from "./ReactionBar";
-import { updateOpinionComments, updateOpinionReactions } from "../lib/db";
+import { updateOpinionReactions } from "../lib/db";
 import { useUserId } from "../lib/useUserId";
-import { useReactionToggle, ReactionType } from "../lib/useReactionToggle";
+import { useReactionToggle } from "../lib/useReactionToggle";
 
 interface OpinionCardProps {
   opinion: Opinion;
 }
 
 export function OpinionCard({ opinion }: OpinionCardProps) {
-  const [comments, setComments] = useState(opinion.comments);
   const [selectedQuote, setSelectedQuote] = useState("");
   const [hasDisagree, setHasDisagree] = useState(false);
   const userId = useUserId();
@@ -41,71 +40,6 @@ export function OpinionCard({ opinion }: OpinionCardProps) {
     onSave: handleSaveReactions,
   });
 
-  const handleAddComment = useCallback(async (comment: Omit<Comment, "replies" | "reactions">) => {
-    const newComment = { ...comment, replies: [], reactions: [] };
-    const newComments = [...comments, newComment];
-    setComments(newComments);
-    await updateOpinionComments(opinion.id, newComments);
-  }, [comments, opinion.id]);
-
-  const handleAddReply = useCallback(async (commentId: string, reply: Omit<CommentReply, "reactions">) => {
-    const newReply = { ...reply, reactions: [] };
-    const newComments = comments.map((c) => {
-      if (c.id === commentId) {
-        return { ...c, replies: [...(c.replies || []), newReply] };
-      }
-      return c;
-    });
-    setComments(newComments);
-    await updateOpinionComments(opinion.id, newComments);
-  }, [comments, opinion.id]);
-
-  const handleToggleCommentReaction = useCallback(async (commentId: string, type: ReactionType) => {
-    if (!userId) return;
-
-    const newComments = comments.map((c) => {
-      if (c.id === commentId) {
-        const existingReaction = (c.reactions || []).find((r) => r.type === type && r.userId === userId);
-        let newReactions: Reaction[];
-        if (existingReaction) {
-          newReactions = (c.reactions || []).filter((r) => !(r.type === type && r.userId === userId));
-        } else {
-          newReactions = [...(c.reactions || []), { type, userId }];
-        }
-        return { ...c, reactions: newReactions };
-      }
-      return c;
-    });
-    setComments(newComments);
-    await updateOpinionComments(opinion.id, newComments);
-  }, [comments, opinion.id, userId]);
-
-  const handleToggleReplyReaction = useCallback(async (commentId: string, replyId: string, type: ReactionType) => {
-    if (!userId) return;
-
-    const newComments = comments.map((c) => {
-      if (c.id === commentId) {
-        const newReplies = (c.replies || []).map((r) => {
-          if (r.id === replyId) {
-            const existingReaction = (r.reactions || []).find((r) => r.type === type && r.userId === userId);
-            let newReactions: Reaction[];
-            if (existingReaction) {
-              newReactions = (r.reactions || []).filter((r) => !(r.type === type && r.userId === userId));
-            } else {
-              newReactions = [...(r.reactions || []), { type, userId }];
-            }
-            return { ...r, reactions: newReactions };
-          }
-          return r;
-        });
-        return { ...c, replies: newReplies };
-      }
-      return c;
-    });
-    setComments(newComments);
-    await updateOpinionComments(opinion.id, newComments);
-  }, [comments, opinion.id, userId]);
-
   return (
     <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
       <OpinionCardHeader name={opinion.user.name} date={opinion.date} />
@@ -115,18 +49,13 @@ export function OpinionCard({ opinion }: OpinionCardProps) {
       >{opinion.content}</p>
       <ReactionBar reactions={localReactions} onToggle={(type) => toggleOpinionReaction(type, userId || "")} userId={userId} />
       <div className="mt-6 border-t border-gray-100 pt-4 dark:border-gray-700">
-        <Resume comments={comments} opinionContent={opinion.content} />
+        <Resume comments={opinion.comments} opinionContent={opinion.content} />
         <CommentsAccordion
-          comments={comments}
+          initialComments={opinion.comments}
           opinionId={opinion.id}
           selectedQuote={selectedQuote}
           onDisagreeChange={setHasDisagree}
           onClearSelectedQuote={() => setSelectedQuote("")}
-          onAddComment={handleAddComment}
-          onAddReply={handleAddReply}
-          onToggleCommentReaction={handleToggleCommentReaction}
-          onToggleReplyReaction={handleToggleReplyReaction}
-          userId={userId}
         />
       </div>
     </div>
