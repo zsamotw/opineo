@@ -22,6 +22,7 @@ export function CommentsAccordion({
   onClearSelectedQuote,
 }: CommentsAccordionProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [showCommentForm, setShowCommentForm] = useState(false);
   const [internalSelectedQuote, setInternalSelectedQuote] = useState("");
 
   const selectedQuote = externalSelectedQuote ?? internalSelectedQuote;
@@ -46,13 +47,30 @@ export function CommentsAccordion({
       </button>
       {isOpen && (
         <div className="border-t border-gray-200 px-3 pb-3 dark:border-gray-700">
-          <CommentForm
-            onSubmit={addComment}
-            commentCount={comments.length}
-            selectedQuote={selectedQuote}
-            onDisagreeChange={setHasDisagree}
-            onClearSelectedQuote={clearSelectedQuote}
-          />
+          {!showCommentForm ? (
+            <button
+              onClick={() => setShowCommentForm(true)}
+              className="mt-2 text-sm text-blue-600 hover:underline dark:text-blue-400"
+            >
+              Odpowiedz
+            </button>
+          ) : (
+            <>
+              <button
+                onClick={() => setShowCommentForm(false)}
+                className="mt-2 text-sm text-blue-600 hover:underline dark:text-blue-400"
+              >
+                Ukryj formularz
+              </button>
+              <CommentForm
+                onSubmit={addComment}
+                commentCount={comments.length}
+                selectedQuote={selectedQuote}
+                onDisagreeChange={setHasDisagree}
+                onClearSelectedQuote={clearSelectedQuote}
+              />
+            </>
+          )}
           {comments.length > 0 && (
             <div className="mt-4">
               <CommentList

@@ -194,9 +194,9 @@ function CommentItem({
           </div>
           <button
             onClick={() => setShowReplyForm(!showReplyForm)}
-            className="mt-2 text-xs text-blue-600 hover:underline dark:text-blue-400"
+            className="mt-2 text-sm text-blue-600 hover:underline dark:text-blue-400"
           >
-            Odpowiedz
+            {showReplyForm ? "Ukryj formularz" : "Odpowiedz"}
           </button>
           {showReplyForm && <ReplyForm onSubmit={handleReplySubmit} />}
           {comment.replies && comment.replies.length > 0 && (
