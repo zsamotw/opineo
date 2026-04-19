@@ -128,3 +128,14 @@ export async function updateOpinionReactions(opinionId: string, reactions: React
     };
   });
 }
+
+export async function hasStoredOpinions(): Promise<boolean> {
+  const opinions = await getOpinions();
+  return opinions.length > 0;
+}
+
+export async function initializeMockData(mockOpinions: Opinion[]): Promise<void> {
+  for (const opinion of mockOpinions) {
+    await addOpinion(opinion);
+  }
+}

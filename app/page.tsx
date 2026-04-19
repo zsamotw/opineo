@@ -4,7 +4,8 @@ import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useAuth } from "@/src/context/AuthContext";
 import { Opinion } from "@/src/data/opinions";
-import { getOpinions, addOpinion as saveOpinion } from "@/src/lib/db";
+import { getOpinions, addOpinion as saveOpinion, hasStoredOpinions, initializeMockData } from "@/src/lib/db";
+import { mockOpinions } from "@/src/data/mockData";
 import { OpinionCard } from "@/src/components/OpinionCard";
 import { OpinionForm } from "@/src/components/OpinionForm";
 import { ErrorBoundary } from "@/src/components/ErrorBoundary";
@@ -87,6 +88,10 @@ export default function Home() {
 
   const loadOpinions = useCallback(async () => {
     try {
+      const hasData = await hasStoredOpinions();
+      if (!hasData) {
+        await initializeMockData(mockOpinions);
+      }
       const loadedOpinions = await getOpinions();
       const sortedOpinions = loadedOpinions.toSorted((a, b) => {
         const dateA = new Date(a.date).getTime() || 0;
