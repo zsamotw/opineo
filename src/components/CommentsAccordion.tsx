@@ -50,7 +50,7 @@ export function CommentsAccordion({
           {!showCommentForm ? (
             <button
               onClick={() => setShowCommentForm(true)}
-              className="mt-2 text-sm text-blue-600 hover:underline dark:text-blue-400"
+              className="mt-2 text-sm font-medium text-blue-600 hover:underline dark:text-blue-400"
             >
               Odpowiedz
             </button>
@@ -58,7 +58,7 @@ export function CommentsAccordion({
             <>
               <button
                 onClick={() => setShowCommentForm(false)}
-                className="mt-2 text-sm text-blue-600 hover:underline dark:text-blue-400"
+                className="mt-2 text-sm font-medium text-blue-600 hover:underline dark:text-blue-400"
               >
                 Ukryj formularz
               </button>

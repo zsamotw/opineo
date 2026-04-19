@@ -84,13 +84,13 @@ function ReplyForm({ onSubmit }: ReplyFormProps) {
       </div>
 
       <div className="relative">
-        <div className="absolute -left-2 top-2 h-3 w-1 rounded-full bg-red-500"></div>
+        <div className="absolute -left-2 top-2 h-3 w-1 rounded-full bg-orange-500"></div>
         <textarea
           value={disagree}
           onChange={(e) => setDisagree(e.target.value)}
           placeholder="Cenę tę perspektywę; pozwól, że przedstawię odmienne spojrzenie."
           rows={1}
-          className="w-full rounded-lg border border-red-300 bg-red-50 px-3 py-1.5 text-sm focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500 dark:border-red-700 dark:bg-red-900/20 dark:text-gray-100 dark:placeholder-gray-500"
+          className="w-full rounded-lg border border-orange-300 bg-orange-50 px-3 py-1.5 text-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500 dark:border-orange-700 dark:bg-orange-900/20 dark:text-gray-100 dark:placeholder-gray-500"
         />
       </div>
       {error && (
@@ -112,9 +112,13 @@ function ReplyForm({ onSubmit }: ReplyFormProps) {
 export function CommentList({ comments, onAddReply, onToggleReaction, onToggleReplyReaction, userId }: CommentListProps) {
   if (comments.length === 0) return null;
 
+  const sortedComments = [...comments].sort((a, b) => 
+    new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+
   return (
     <div className="mb-4 space-y-3">
-      {comments.map((comment) => (
+      {sortedComments.map((comment) => (
         <CommentItem
           key={comment.id}
           comment={comment}
@@ -188,14 +192,14 @@ function CommentItem({
             )}
             {comment.disagree && (
               <div className="flex gap-2">
-                <span className="text-sm font-medium text-red-600 dark:text-red-400 whitespace-nowrap flex-shrink-0">✕ Nie zgadzam się:</span>
+                <span className="text-sm font-medium text-orange-600 dark:text-orange-400 whitespace-nowrap flex-shrink-0">✕ Nie zgadzam się:</span>
                 <p className="text-sm text-gray-700 dark:text-gray-300">{comment.disagree}</p>
               </div>
             )}
           </div>
           <button
             onClick={() => setShowReplyForm(!showReplyForm)}
-            className="mt-2 text-sm text-blue-600 hover:underline dark:text-blue-400"
+            className="mt-2 text-sm font-medium text-blue-600 hover:underline dark:text-blue-400"
           >
             {showReplyForm ? "Ukryj formularz" : "Odpowiedz"}
           </button>
@@ -237,7 +241,7 @@ function CommentItem({
                     )}
                     {reply.disagree && (
                       <div className="flex gap-1">
-                        <span className="text-xs font-medium text-red-600 dark:text-red-400">✕ Nie zgadzam się:</span>
+                        <span className="text-xs font-medium text-orange-600 dark:text-orange-400">✕ Nie zgadzam się:</span>
                         <p className="text-xs text-gray-700 dark:text-gray-300">{reply.disagree}</p>
                       </div>
                     )}

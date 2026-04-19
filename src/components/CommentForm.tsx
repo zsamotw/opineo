@@ -95,13 +95,13 @@ export function CommentForm({ onSubmit, commentCount, selectedQuote, onDisagreeC
           </div>
 
           <div className="relative">
-            <div className="absolute -left-3 top-2 h-4 w-1 rounded-full bg-red-500"></div>
+            <div className="absolute -left-3 top-2 h-4 w-1 rounded-full bg-orange-500"></div>
             <textarea
               value={disagree}
               onChange={(e) => handleDisagreeChange(e.target.value)}
               placeholder="Cenę tę perspektywę; pozwól, że przedstawię odmienne spojrzenie."
               rows={2}
-              className="w-full rounded-lg border border-red-300 bg-red-50 px-3 py-2 text-sm focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500 dark:border-red-700 dark:bg-red-900/20 dark:text-gray-100 dark:placeholder-gray-500"
+              className="w-full rounded-lg border border-orange-300 bg-orange-50 px-3 py-2 text-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500 dark:border-orange-700 dark:bg-orange-900/20 dark:text-gray-100 dark:placeholder-gray-500"
             />
           </div>
           {error && (
