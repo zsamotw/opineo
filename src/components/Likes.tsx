@@ -23,7 +23,7 @@ export function Likes({ likes }: LikesProps) {
         }}
         className="flex list-none items-center justify-between text-sm font-medium text-green-800 dark:text-green-200"
       >
-        <span>✓ Adwersarze cenią ({likes?.length ?? 0})</span>
+        <span>✓ Inni cenią ({likes?.length ?? 0})</span>
         <span>{isOpen ? "▼" : "▶"}</span>
       </summary>
       {isOpen && (
