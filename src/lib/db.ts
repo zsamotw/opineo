@@ -58,7 +58,7 @@ export async function addUser(user: User): Promise<void> {
 
 export async function findUserByEmail(email: string): Promise<User | undefined> {
   const users = await getUsers();
-  return users.find((u) => u.email === email);
+  return users.find((user) => user.email === email);
 }
 
 export async function getOpinions(): Promise<Opinion[]> {

@@ -33,11 +33,11 @@ export function useComments({ initialComments, opinionId }: UseCommentsOptions):
 
   const addReply = useCallback(async (commentId: string, reply: Omit<CommentReply, "reactions">) => {
     const newReply = { ...reply, reactions: [] };
-    const newComments = comments.map((c) => {
-      if (c.id === commentId) {
-        return { ...c, replies: [...(c.replies || []), newReply] };
+    const newComments = comments.map((comment) => {
+      if (comment.id === commentId) {
+        return { ...comment, replies: [...(comment.replies || []), newReply] };
       }
-      return c;
+      return comment;
     });
     setComments(newComments);
     await updateOpinionComments(opinionId, newComments);
@@ -46,15 +46,15 @@ export function useComments({ initialComments, opinionId }: UseCommentsOptions):
   const toggleReaction = useCallback(async (commentId: string, type: ReactionType) => {
     if (!userId) return;
 
-    const newComments = comments.map((c) => {
-      if (c.id === commentId) {
-        const existingReaction = (c.reactions || []).find((r) => r.type === type && r.userId === userId);
+    const newComments = comments.map((comment) => {
+      if (comment.id === commentId) {
+        const existingReaction = (comment.reactions || []).find((reaction) => reaction.type === type && reaction.userId === userId);
         const newReactions = existingReaction
-          ? (c.reactions || []).filter((r) => !(r.type === type && r.userId === userId))
-          : [...(c.reactions || []), { type, userId }];
-        return { ...c, reactions: newReactions };
+          ? (comment.reactions || []).filter((reaction) => !(reaction.type === type && reaction.userId === userId))
+          : [...(comment.reactions || []), { type, userId }];
+        return { ...comment, reactions: newReactions };
       }
-      return c;
+      return comment;
     });
     setComments(newComments);
     await updateOpinionComments(opinionId, newComments);
@@ -63,21 +63,21 @@ export function useComments({ initialComments, opinionId }: UseCommentsOptions):
   const toggleReplyReaction = useCallback(async (commentId: string, replyId: string, type: ReactionType) => {
     if (!userId) return;
 
-    const newComments = comments.map((c) => {
-      if (c.id === commentId) {
-        const newReplies = (c.replies || []).map((r) => {
-          if (r.id === replyId) {
-            const existingReaction = (r.reactions || []).find((r) => r.type === type && r.userId === userId);
+    const newComments = comments.map((comment) => {
+      if (comment.id === commentId) {
+        const newReplies = (comment.replies || []).map((reply) => {
+          if (reply.id === replyId) {
+            const existingReaction = (reply.reactions || []).find((reaction) => reaction.type === type && reaction.userId === userId);
             const newReactions = existingReaction
-              ? (r.reactions || []).filter((r) => !(r.type === type && r.userId === userId))
-              : [...(r.reactions || []), { type, userId }];
-            return { ...r, reactions: newReactions };
+              ? (reply.reactions || []).filter((reaction) => !(reaction.type === type && reaction.userId === userId))
+              : [...(reply.reactions || []), { type, userId }];
+            return { ...reply, reactions: newReactions };
           }
-          return r;
+          return reply;
         });
-        return { ...c, replies: newReplies };
+        return { ...comment, replies: newReplies };
       }
-      return c;
+      return comment;
     });
     setComments(newComments);
     await updateOpinionComments(opinionId, newComments);

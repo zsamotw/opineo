@@ -12,12 +12,12 @@ interface ResumeProps {
 
 export function Resume({ comments, opinionContent }: ResumeProps) {
   const selectedQuotes = comments
-    .filter((c) => c.selectedQuote?.trim())
-    .map((c) => c.selectedQuote!);
+    .filter((comment) => comment.selectedQuote?.trim())
+    .map((comment) => comment.selectedQuote!);
 
   const likes = comments
-    .filter((c) => c.agree && c.disagree)
-    .map((c) => c.agree);
+    .filter((comment) => comment.agree && comment.disagree)
+    .map((comment) => comment.agree);
 
   return (
     <div className="mt-4 space-y-2">

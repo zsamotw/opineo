@@ -14,11 +14,11 @@ export function useReactionToggle({ reactions, onSave }: UseReactionToggleOption
   const toggle = useCallback(async (type: ReactionType, userId: string) => {
     if (!userId) return;
 
-    const existing = localReactions.find((r) => r.type === type && r.userId === userId);
+    const existing = localReactions.find((reaction) => reaction.type === type && reaction.userId === userId);
     let newReactions: Reaction[];
     
     if (existing) {
-      newReactions = localReactions.filter((r) => !(r.type === type && r.userId === userId));
+      newReactions = localReactions.filter((reaction) => !(reaction.type === type && reaction.userId === userId));
     } else {
       newReactions = [...localReactions, { type, userId }];
     }

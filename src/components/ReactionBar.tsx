@@ -28,8 +28,8 @@ export function ReactionBar({ reactions, onToggle, userId = "", size = "md" }: R
     <div className={`flex items-center ${sizeConfig.gap}`}>
       {reactionTypes.map((type) => {
         const config = REACTION_CONFIG[type];
-        const count = reactions.filter((r) => r.type === type).length;
-        const isActive = reactions.some((r) => r.type === type && r.userId === userId);
+        const count = reactions.filter((reaction) => reaction.type === type).length;
+        const isActive = reactions.some((reaction) => reaction.type === type && reaction.userId === userId);
 
         return (
           <button
