@@ -4,30 +4,26 @@ import { useState } from "react";
 
 interface AIAssistantProps {
   opinionContent?: string;
+  response?: string | undefined;
+  loading?: boolean;
+  error?: string | undefined;
+  analyzed?: boolean;
+  onAnalyze?: (content: string) => void;
 }
 
-export function AIAssistant({ opinionContent = "" }: AIAssistantProps) {
+export function AIAssistant({
+  opinionContent = "",
+  response,
+  loading = false,
+  error,
+  analyzed = false,
+  onAnalyze,
+}: AIAssistantProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [out, setOut] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const analyzeOpinion = async (content: string) => {
-    if (!content.trim()) return;
-    setLoading(true);
-    setOut("Analizuję komentarz...");
-    const res = await fetch("/api/generate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ comment: content }),
-    });
-    const data = await res.json();
-    setOut(data.analysis || "Brak odpowiedzi.");
-    setLoading(false);
-  };
 
   const handleToggle = () => {
-    if (!isOpen && opinionContent) {
-      analyzeOpinion(opinionContent);
+    if (!isOpen && opinionContent && !analyzed && onAnalyze) {
+      onAnalyze(opinionContent);
     }
     setIsOpen(!isOpen);
   };
@@ -46,9 +42,12 @@ export function AIAssistant({ opinionContent = "" }: AIAssistantProps) {
           {loading && (
             <p className="text-sm text-purple-600 dark:text-purple-400">Analizuję komentarz...</p>
           )}
-          {out && (
+          {error && (
+            <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+          )}
+          {response && (
             <pre className="whitespace-pre-wrap text-sm text-gray-700 dark:text-gray-300">
-              {out}
+              {response}
             </pre>
           )}
         </div>
