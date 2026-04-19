@@ -1,7 +1,6 @@
 import { useState, useCallback } from "react";
 import { Reaction } from "../data/opinions";
-
-export type ReactionType = "appreciate" | "changed" | "connect";
+import { ReactionType } from "../types/reaction";
 
 interface UseReactionToggleOptions {
   reactions: Reaction[];

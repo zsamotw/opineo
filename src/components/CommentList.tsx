@@ -3,14 +3,15 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Comment, CommentReply } from "../data/opinions";
-import { ReactionBar } from "./ReactionBar";
+import { ReactionType } from "../types/reaction";
+import { ReactionsBar } from "./ReactionsBar";
 import { FormattedDate } from "./FormattedDate";
 
 interface CommentListProps {
   comments: Comment[];
   onAddReply: (commentId: string, reply: Omit<CommentReply, "reactions">) => void;
-  onToggleReaction: (commentId: string, type: "appreciate" | "changed" | "connect") => void;
-  onToggleReplyReaction: (commentId: string, replyId: string, type: "appreciate" | "changed" | "connect") => void;
+  onToggleReaction: (commentId: string, type: ReactionType) => void;
+  onToggleReplyReaction: (commentId: string, replyId: string, type: ReactionType) => void;
   userId?: string;
 }
 
@@ -136,8 +137,8 @@ function CommentItem({
 }: {
   comment: Comment;
   onAddReply: (commentId: string, reply: Omit<CommentReply, "reactions">) => void;
-  onToggleReaction: (commentId: string, type: "appreciate" | "changed" | "connect") => void;
-  onToggleReplyReaction: (commentId: string, replyId: string, type: "appreciate" | "changed" | "connect") => void;
+  onToggleReaction: (commentId: string, type: ReactionType) => void;
+  onToggleReplyReaction: (commentId: string, replyId: string, type: ReactionType) => void;
   userId?: string;
 }) {
   const [showReplyForm, setShowReplyForm] = useState(false);
@@ -163,7 +164,7 @@ function CommentItem({
                 <FormattedDate date={comment.date} />
               </span>
             </div>
-            <ReactionBar
+            <ReactionsBar
               reactions={comment.reactions || []}
               onToggle={(type) => onToggleReaction(comment.id, type)}
               userId={userId}
@@ -212,7 +213,7 @@ function CommentItem({
                         <FormattedDate date={reply.date} />
                       </span>
                     </div>
-                    <ReactionBar
+                    <ReactionsBar
                       reactions={reply.reactions || []}
                       onToggle={(type) => onToggleReplyReaction(comment.id, reply.id, type)}
                       userId={userId}

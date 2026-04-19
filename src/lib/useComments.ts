@@ -4,7 +4,7 @@ import { useState, useCallback } from "react";
 import { Comment, CommentReply } from "../data/opinions";
 import { updateOpinionComments } from "../lib/db";
 import { useUserId } from "../lib/useUserId";
-import { ReactionType } from "../lib/useReactionToggle";
+import { ReactionType } from "../types/reaction";
 
 interface UseCommentsOptions {
   initialComments: Comment[];

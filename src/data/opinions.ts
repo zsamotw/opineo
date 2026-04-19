@@ -25,8 +25,10 @@ export interface Comment {
   reactions: Reaction[];
 }
 
+import { ReactionType } from "../types/reaction";
+
 export interface Reaction {
-  type: "appreciate" | "changed" | "connect";
+  type: ReactionType;
   userId: string;
 }
 
