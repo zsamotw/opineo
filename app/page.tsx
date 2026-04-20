@@ -136,7 +136,7 @@ export default function Home() {
       <div className="flex min-h-screen flex-col bg-zinc-50 dark:bg-black">
         <Navbar />
         <div className="flex flex-1 flex-col items-center py-12 px-4">
-          <div className="w-full max-w-2xl flex flex-col gap-4">
+          <div className="w-full px-4 sm:px-8 flex flex-col gap-4">
             <OpinionForm onAddOpinion={handleAddOpinion} />
             {opinions.length === 0 ? (
               <EmptyState />

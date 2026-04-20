@@ -41,7 +41,7 @@ export function OpinionCard({ opinion }: OpinionCardProps) {
   });
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+    <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800 w-full">
       <OpinionCardHeader name={opinion.user.name} date={opinion.date} />
       <p 
         className={`mb-4 text-lg leading-relaxed text-gray-800 dark:text-gray-200 select-text ${hasDisagree ? "cursor-text rounded bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 selection:bg-yellow-200 selection:text-gray-900" : "cursor-text"}`}

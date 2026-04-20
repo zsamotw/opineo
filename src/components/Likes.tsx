@@ -21,7 +21,7 @@ export function Likes({ likes }: LikesProps) {
           e.preventDefault();
           setIsOpen(!isOpen);
         }}
-        className="flex list-none items-center justify-between text-sm font-medium text-green-800 dark:text-green-200"
+        className="flex list-none items-center justify-between text-lg font-medium text-green-800 dark:text-green-200"
       >
         <span>✓ Inni cenią ({likes?.length ?? 0})</span>
         <span>{isOpen ? "▼" : "▶"}</span>
@@ -29,7 +29,7 @@ export function Likes({ likes }: LikesProps) {
       {isOpen && (
         <ul className="mt-2 list-disc pl-5 space-y-1">
           {likes?.map((like, index) => (
-            <li key={index} className="text-sm text-gray-700 dark:text-gray-300 italic">
+            <li key={index} className="text-lg text-gray-700 dark:text-gray-300 italic">
               {like}
             </li>
           ))}

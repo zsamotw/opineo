@@ -21,7 +21,7 @@ export function SelectedQuotes({ quotes }: SelectedQuotesProps) {
           e.preventDefault();
           setIsOpen(!isOpen);
         }}
-        className="flex list-none items-center justify-between text-sm font-medium text-yellow-800 dark:text-yellow-200"
+        className="flex list-none items-center justify-between text-lg font-medium text-yellow-800 dark:text-yellow-200"
       >
         <span>❝ Fragmenty warte uwagi ({quotes.length})</span>
         <span className="transition-transform {isOpen ? 'rotate-180' : ''}">{isOpen ? "▼" : "▶"}</span>
@@ -29,7 +29,7 @@ export function SelectedQuotes({ quotes }: SelectedQuotesProps) {
       {isOpen && (
         <ul className="mt-2 list-disc pl-5 space-y-1">
           {quotes.map((quote, index) => (
-            <li key={index} className="text-sm text-gray-700 dark:text-gray-300 italic">
+            <li key={index} className="text-lg text-gray-700 dark:text-gray-300 italic">
               &ldquo;{quote}&rdquo;
             </li>
           ))}

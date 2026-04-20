@@ -17,8 +17,8 @@ const REACTION_CONFIG: Record<ReactionType, { emoji: string; label: string; acti
 };
 
 const SIZE_CONFIG = {
-  sm: { gap: "gap-0.5", padding: "px-1.5 py-1", emoji: "text-xs", count: "text-xs" },
-  md: { gap: "gap-1", padding: "px-3 py-2", emoji: "text-lg", count: "text-sm" },
+  sm: { gap: "gap-0.5", padding: "px-1.5 py-1", emoji: "text-sm", count: "text-xs" },
+  md: { gap: "gap-1", padding: "px-3 py-2", emoji: "text-xl", count: "text-base" },
 };
 
 export function ReactionsBar({ reactions, onToggle, userId = "", size = "md" }: ReactionsBarProps) {
@@ -38,7 +38,7 @@ export function ReactionsBar({ reactions, onToggle, userId = "", size = "md" }: 
             onClick={() => onToggle(type)}
             aria-label={config.label}
             title={config.label}
-            className={`flex items-center ${sizeConfig.padding} rounded-full transition-colors cursor-pointer text-sm ${
+            className={`flex items-center ${sizeConfig.padding} rounded-full transition-colors cursor-pointer text-lg ${
               isActive ? config.activeClass : config.inactiveClass
             }`}
           >

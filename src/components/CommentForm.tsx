@@ -71,12 +71,12 @@ export function CommentForm({ onSubmit, commentCount, selectedQuote, onDisagreeC
       {user ? (
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           {disagree.trim() && (
-            <div className="rounded-lg bg-yellow-50 p-3 text-sm dark:bg-yellow-900/20">
+            <div className="rounded-lg bg-yellow-50 p-3 text-lg dark:bg-yellow-900/20">
               <p className="mb-2 font-medium text-yellow-800 dark:text-yellow-200">
                 Masz inne zdanie, ale mimo to zaznacz fragment który warto rozważyć:
               </p>
               {selectedQuote && (
-                <p className="mb-2 text-sm text-green-700 dark:text-green-300 whitespace-pre-wrap">
+                <p className="mb-2 text-lg text-green-700 dark:text-green-300 whitespace-pre-wrap">
                   "{selectedQuote}"
                 </p>
               )}
@@ -90,7 +90,7 @@ export function CommentForm({ onSubmit, commentCount, selectedQuote, onDisagreeC
               onChange={(e) => setAgree(e.target.value)}
               placeholder={disagree.trim() ? "Napisz co cenisz w tej opini, mimo iż nie do końca się z nią zgadzasz" : "Zgadzam się — świetny punkt!"}
               rows={2}
-              className="w-full rounded-lg border border-green-300 bg-green-50 px-3 py-2 text-sm focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500 dark:border-green-700 dark:bg-green-900/20 dark:text-gray-100 dark:placeholder-gray-500"
+              className="w-full rounded-lg border border-green-300 bg-green-50 px-3 py-2 text-lg focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500 dark:border-green-700 dark:bg-green-900/20 dark:text-gray-100 dark:placeholder-gray-500"
             />
           </div>
 
@@ -101,22 +101,22 @@ export function CommentForm({ onSubmit, commentCount, selectedQuote, onDisagreeC
               onChange={(e) => handleDisagreeChange(e.target.value)}
               placeholder="Cenę tę perspektywę; pozwól, że przedstawię odmienne spojrzenie."
               rows={2}
-              className="w-full rounded-lg border border-orange-300 bg-orange-50 px-3 py-2 text-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500 dark:border-orange-700 dark:bg-orange-900/20 dark:text-gray-100 dark:placeholder-gray-500"
+              className="w-full rounded-lg border border-orange-300 bg-orange-50 px-3 py-2 text-lg focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500 dark:border-orange-700 dark:bg-orange-900/20 dark:text-gray-100 dark:placeholder-gray-500"
             />
           </div>
           {error && (
-            <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+            <p className="text-lg text-red-600 dark:text-red-400">{error}</p>
           )}
           <button
             type="submit"
             disabled={!hasAgree}
-            className="self-start rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+            className="self-start rounded-lg bg-blue-600 px-4 py-2 text-lg font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
           >
             Wyślij
           </button>
         </form>
       ) : (
-        <p className="text-sm text-gray-500 dark:text-gray-400">
+        <p className="text-lg text-gray-500 dark:text-gray-400">
           <Link href="/login" className="text-blue-600 hover:underline dark:text-blue-400">
             Zaloguj się
           </Link>{" "}

@@ -37,10 +37,10 @@ export function CommentsAccordion({
   });
 
   return (
-    <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-800/50">
+    <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 px-4 dark:border-gray-700 dark:bg-gray-800/50">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex w-full cursor-pointer items-center justify-between p-3 text-sm font-medium text-gray-700 dark:text-gray-200"
+        className="flex w-full cursor-pointer items-center justify-between p-3 text-lg font-medium text-gray-700 dark:text-gray-200"
       >
         <span>Komentarze ({comments.length})</span>
         <span className="text-gray-500">{isOpen ? "▼" : "▶"}</span>
@@ -50,7 +50,7 @@ export function CommentsAccordion({
           {!showCommentForm ? (
             <button
               onClick={() => setShowCommentForm(true)}
-              className="mt-2 text-sm font-medium text-blue-600 hover:underline dark:text-blue-400"
+              className="mt-2 text-lg font-medium text-blue-600 hover:underline dark:text-blue-400"
             >
               Odpowiedz
             </button>
@@ -58,7 +58,7 @@ export function CommentsAccordion({
             <>
               <button
                 onClick={() => setShowCommentForm(false)}
-                className="mt-2 text-sm font-medium text-blue-600 hover:underline dark:text-blue-400"
+                className="mt-2 text-lg font-medium text-blue-600 hover:underline dark:text-blue-400"
               >
                 Ukryj formularz
               </button>
