@@ -7,7 +7,7 @@ interface ReactionsBarProps {
   reactions: Reaction[];
   onToggle: (type: ReactionType) => void;
   userId?: string;
-  size?: "sm" | "md";
+  size?: "sm" | "md" | "lg";
 }
 
 const REACTION_CONFIG: Record<ReactionType, { emoji: string; label: string; activeClass: string; inactiveClass: string }> = {
@@ -18,7 +18,8 @@ const REACTION_CONFIG: Record<ReactionType, { emoji: string; label: string; acti
 
 const SIZE_CONFIG = {
   sm: { gap: "gap-0.5", padding: "px-1.5 py-1", emoji: "text-sm", count: "text-xs" },
-  md: { gap: "gap-1", padding: "px-3 py-2", emoji: "text-xl", count: "text-base" },
+  md: { gap: "gap-1", padding: "px-2 py-1", emoji: "text-lg", count: "text-sm" },
+  lg: { gap: "gap-1", padding: "px-3 py-2", emoji: "text-xl", count: "text-base" },
 };
 
 export function ReactionsBar({ reactions, onToggle, userId = "", size = "md" }: ReactionsBarProps) {

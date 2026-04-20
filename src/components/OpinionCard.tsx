@@ -47,7 +47,7 @@ export function OpinionCard({ opinion }: OpinionCardProps) {
         className={`mb-4 text-lg leading-relaxed text-gray-800 dark:text-gray-200 select-text ${hasDisagree ? "cursor-text rounded bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 selection:bg-yellow-200 selection:text-gray-900" : "cursor-text"}`}
         onClick={handleContentClick}
       >{opinion.content}</p>
-      <ReactionsBar reactions={localReactions} onToggle={(type) => toggleOpinionReaction(type, userId || "")} userId={userId} />
+      <ReactionsBar reactions={localReactions} onToggle={(type) => toggleOpinionReaction(type, userId || "")} userId={userId} size="lg" />
       <div className="mt-6 border-t border-gray-100 pt-4 dark:border-gray-700">
         <Resume comments={opinion.comments} opinionContent={opinion.content} />
         <CommentsAccordion

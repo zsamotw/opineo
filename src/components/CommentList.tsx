@@ -172,7 +172,7 @@ function CommentItem({
               reactions={comment.reactions || []}
               onToggle={(type) => onToggleReaction(comment.id, type)}
               userId={userId}
-              size="sm"
+              size="lg"
             />
           </div>
           <div className="mt-2 space-y-2">
@@ -221,7 +221,7 @@ function CommentItem({
                       reactions={reply.reactions || []}
                       onToggle={(type) => onToggleReplyReaction(comment.id, reply.id, type)}
                       userId={userId}
-size="md"
+                      size="md"
                     />
                   </div>
                   <div className="mt-1 space-y-1">
