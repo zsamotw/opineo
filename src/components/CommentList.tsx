@@ -177,22 +177,22 @@ function CommentItem({
           </div>
           <div className="mt-2 space-y-2">
             {comment.selectedQuote && (
-              <div className="flex gap-2">
-                <span className="text-lg font-medium text-yellow-600 dark:text-yellow-400 whitespace-nowrap flex-shrink-0">❝ Warte uwagi:</span>
+              <div className="grid grid-cols-[160px_1fr] gap-2">
+                <span className="text-lg font-medium text-yellow-600 dark:text-yellow-400 whitespace-nowrap">❝ Warte uwagi:</span>
                 <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-400 italic whitespace-pre-wrap">"{comment.selectedQuote}"</p>
               </div>
             )}
             {comment.agree && (
-              <div className="flex gap-2">
-                <span className="text-lg font-medium text-green-600 dark:text-green-400 whitespace-nowrap flex-shrink-0">
+              <div className="grid grid-cols-[160px_1fr] gap-2">
+                <span className="text-lg font-medium text-green-600 dark:text-green-400 whitespace-nowrap">
                   ✓ {comment.disagree ? "Co cenię:" : "Zgadzam się:"}
                 </span>
                 <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300">{comment.agree}</p>
               </div>
             )}
             {comment.disagree && (
-              <div className="flex gap-2">
-                <span className="text-lg font-medium text-orange-600 dark:text-orange-400 whitespace-nowrap flex-shrink-0">✕ Nie zgadzam się:</span>
+              <div className="grid grid-cols-[160px_1fr] gap-2">
+                <span className="text-lg font-medium text-orange-600 dark:text-orange-400 whitespace-nowrap">✕ Nie zgadzam się:</span>
                 <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300">{comment.disagree}</p>
               </div>
             )}
@@ -225,23 +225,17 @@ size="md"
                     />
                   </div>
                   <div className="mt-1 space-y-1">
-                    {reply.selectedQuote && (
-                      <div className="flex gap-1">
-                        <span className="text-base font-medium text-yellow-600 dark:text-yellow-400">❝:</span>
-                        <p className="text-base text-gray-600 dark:text-gray-400 italic whitespace-pre-wrap">"{reply.selectedQuote}"</p>
-                      </div>
-                    )}
                     {reply.agree && (
-                      <div className="flex gap-1">
-                        <span className="text-base font-medium text-green-600 dark:text-green-400">
-                          ✓ {reply.disagree ? "Co cenię:" : ""}
+                      <div className="grid grid-cols-[150px_1fr] gap-1">
+                        <span className="text-base font-medium text-green-600 dark:text-green-400 whitespace-nowrap">
+                          ✓ {reply.disagree ? "Co cenię:" : "Zgadzam się:"}
                         </span>
                         <p className="text-base text-gray-700 dark:text-gray-300">{reply.agree}</p>
                       </div>
                     )}
                     {reply.disagree && (
-                      <div className="flex gap-1">
-                        <span className="text-base font-medium text-orange-600 dark:text-orange-400">✕ Nie zgadzam się:</span>
+                      <div className="grid grid-cols-[150px_1fr] gap-1">
+                        <span className="text-base font-medium text-orange-600 dark:text-orange-400 whitespace-nowrap">✕ Nie zgadzam się:</span>
                         <p className="text-base text-gray-700 dark:text-gray-300">{reply.disagree}</p>
                       </div>
                     )}
