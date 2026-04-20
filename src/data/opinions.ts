@@ -7,7 +7,6 @@ export interface CommentReply {
   date: string;
   agree: string;
   disagree: string;
-  selectedQuote?: string;
   reactions: Reaction[];
 }
 
