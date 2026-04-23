@@ -27,7 +27,7 @@ export function ReactionsBar({ reactions, onToggle, userId = "", size = "md" }: 
   const sizeConfig = SIZE_CONFIG[size];
 
   return (
-    <div className={`flex items-center ${sizeConfig.gap}`}>
+    <div className={`flex flex-wrap items-center gap-1 md:flex-nowrap`}>
       {reactionTypes.map((type) => {
         const config = REACTION_CONFIG[type];
         const count = reactions.filter((reaction) => reaction.type === type).length;
