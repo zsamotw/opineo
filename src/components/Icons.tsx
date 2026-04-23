@@ -1,13 +1,14 @@
 interface IconProps {
   className?: string;
+  size?: number;
 }
 
-export function HeartIcon({ className }: IconProps) {
+export function HeartIcon({ className, size = 18 }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -21,12 +22,12 @@ export function HeartIcon({ className }: IconProps) {
   );
 }
 
-export function QuoteIcon({ className }: IconProps) {
+export function QuoteIcon({ className, size = 18 }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -41,12 +42,12 @@ export function QuoteIcon({ className }: IconProps) {
   );
 }
 
-export function ChatBubbleIcon({ className }: IconProps) {
+export function ChatBubbleIcon({ className, size = 18 }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -60,12 +61,12 @@ export function ChatBubbleIcon({ className }: IconProps) {
   );
 }
 
-export function SearchIcon({ className }: IconProps) {
+export function SearchIcon({ className, size = 18 }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
