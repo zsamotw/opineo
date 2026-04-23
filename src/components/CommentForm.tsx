@@ -18,11 +18,15 @@ export function CommentForm({ onSubmit, commentCount, selectedQuote, onDisagreeC
   const [disagree, setDisagree] = useState("");
   const [error, setError] = useState("");
 
-  const hasAgree = agree.trim() || selectedQuote;
+  const hasAgree = agree.trim().length > 0 || selectedQuote;
 
   const handleDisagreeChange = (value: string) => {
     setDisagree(value);
-    onDisagreeChange?.(value.trim().length > 0);
+    const hasDisagree = value.trim().length > 0;
+    onDisagreeChange?.(hasDisagree);
+    if (!hasDisagree && selectedQuote) {
+      onClearSelectedQuote?.();
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
