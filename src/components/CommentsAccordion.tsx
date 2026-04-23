@@ -2,27 +2,38 @@
 
 import { useState } from "react";
 import { Comment } from "../data/opinions";
-import { useComments } from "../lib/useComments";
+import { CommentReply } from "../data/opinions";
 import { useCountdownForm } from "../lib/useCountdownForm";
 import { CountdownIndicator } from "./CountdownIndicator";
 import { CommentList } from "./CommentList";
 import { CommentForm } from "./CommentForm";
 import { ChatBubbleIcon } from "./Icons";
+import { ReactionType } from "../types/reaction";
 
 interface CommentsAccordionProps {
-  initialComments: Comment[];
+  comments: Comment[];
   opinionId: string;
   selectedQuote?: string;
   onDisagreeChange?: (hasDisagree: boolean) => void;
   onClearSelectedQuote?: () => void;
+  onAddComment: (comment: Omit<Comment, "replies" | "reactions">) => Promise<void>;
+  onAddReply: (commentId: string, reply: Omit<CommentReply, "reactions">) => Promise<void>;
+  onToggleReaction: (commentId: string, type: ReactionType) => Promise<void>;
+  onToggleReplyReaction: (commentId: string, replyId: string, type: ReactionType) => Promise<void>;
+  userId?: string;
 }
 
 export function CommentsAccordion({ 
-  initialComments, 
+  comments,
   opinionId,
   selectedQuote: externalSelectedQuote,
   onDisagreeChange,
   onClearSelectedQuote,
+  onAddComment,
+  onAddReply,
+  onToggleReaction,
+  onToggleReplyReaction,
+  userId,
 }: CommentsAccordionProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [internalSelectedQuote, setInternalSelectedQuote] = useState("");
@@ -34,11 +45,6 @@ export function CommentsAccordion({
     onDisagreeChange?.(value);
   };
   const clearSelectedQuote = onClearSelectedQuote ?? (() => setInternalSelectedQuote(""));
-
-  const { comments, addComment, addReply, toggleReaction, toggleReplyReaction, userId } = useComments({
-    initialComments,
-    opinionId,
-  });
 
   return (
     <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-800/50">
@@ -74,7 +80,7 @@ export function CommentsAccordion({
                 Ukryj formularz
               </button>
               <CommentForm
-                onSubmit={addComment}
+                onSubmit={onAddComment}
                 commentCount={comments.length}
                 selectedQuote={selectedQuote}
                 onDisagreeChange={setHasDisagree}
@@ -86,9 +92,9 @@ export function CommentsAccordion({
             <div className="mt-4">
               <CommentList
                 comments={comments}
-                onAddReply={addReply}
-                onToggleReaction={toggleReaction}
-                onToggleReplyReaction={toggleReplyReaction}
+                onAddReply={onAddReply}
+                onToggleReaction={onToggleReaction}
+                onToggleReplyReaction={onToggleReplyReaction}
                 userId={userId}
               />
             </div>

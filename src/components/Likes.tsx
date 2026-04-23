@@ -26,7 +26,7 @@ export function Likes({ likes }: LikesProps) {
       >
         <span className="flex items-center gap-2">
           <HeartIcon />
-          Krytycy cenią ({likes?.length ?? 0})
+          Docenione ({likes?.length ?? 0})
         </span>
         <span>{isOpen ? "▼" : "▶"}</span>
       </summary>

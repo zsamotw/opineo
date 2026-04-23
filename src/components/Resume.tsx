@@ -19,7 +19,7 @@ export function Resume({ comments, opinionContent }: ResumeProps) {
     .map((comment) => comment.selectedQuote!);
 
   const likes = comments
-    .filter((comment) => comment.agree && comment.disagree)
+    .filter((comment) => comment.agree?.trim())
     .map((comment) => comment.agree);
 
   return (

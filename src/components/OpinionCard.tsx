@@ -9,6 +9,7 @@ import { ReactionsBar } from "./ReactionsBar";
 import { updateOpinionReactions } from "../lib/db";
 import { useUserId } from "../lib/useUserId";
 import { useReactionToggle } from "../lib/useReactionToggle";
+import { useComments } from "../lib/useComments";
 
 interface OpinionCardProps {
   opinion: Opinion;
@@ -18,6 +19,11 @@ export function OpinionCard({ opinion }: OpinionCardProps) {
   const [selectedQuote, setSelectedQuote] = useState("");
   const [hasDisagree, setHasDisagree] = useState(false);
   const userId = useUserId();
+
+  const { comments, addComment, addReply, toggleReaction, toggleReplyReaction } = useComments({
+    initialComments: opinion.comments,
+    opinionId: opinion.id,
+  });
 
   const handleSaveReactions = useCallback(async (reactions: Reaction[]) => {
     await updateOpinionReactions(opinion.id, reactions);
@@ -49,13 +55,18 @@ export function OpinionCard({ opinion }: OpinionCardProps) {
       >{opinion.content}</p>
       <ReactionsBar reactions={localReactions} onToggle={(type) => toggleOpinionReaction(type, userId || "")} userId={userId} size="lg" />
       <div className="mt-6 border-t border-gray-100 pt-4 dark:border-gray-700">
-        <Resume comments={opinion.comments} opinionContent={opinion.content} />
+        <Resume comments={comments} opinionContent={opinion.content} />
         <CommentsAccordion
-          initialComments={opinion.comments}
+          comments={comments}
           opinionId={opinion.id}
           selectedQuote={selectedQuote}
           onDisagreeChange={setHasDisagree}
           onClearSelectedQuote={() => setSelectedQuote("")}
+          onAddComment={addComment}
+          onAddReply={addReply}
+          onToggleReaction={toggleReaction}
+          onToggleReplyReaction={toggleReplyReaction}
+          userId={userId}
         />
       </div>
     </div>
