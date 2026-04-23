@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useAuth } from "../context/AuthContext";
 
@@ -18,12 +18,6 @@ export function CommentForm({ onSubmit, commentCount, selectedQuote, onClearSele
   const [error, setError] = useState("");
 
   const hasAgree = agree.trim().length > 0 || selectedQuote;
-
-  useEffect(() => {
-    setAgree("");
-    setDisagree("");
-    setError("");
-  }, [selectedQuote]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

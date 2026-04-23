@@ -3,6 +3,7 @@
 import { Comment } from "../data/opinions";
 import { AIAssistant } from "./AIAssistant";
 import { Likes } from "./Likes";
+import { OpposingViews } from "./OpposingViews";
 import { SelectedQuotes } from "./SelectedQuotes";
 import { useAIAnalysis } from "../lib/useAIAnalysis";
 
@@ -22,10 +23,14 @@ export function Resume({ comments, opinionContent }: ResumeProps) {
     .filter((comment) => comment.agree?.trim())
     .map((comment) => comment.agree);
 
+  const opposingViews = comments
+    .filter((comment) => comment.disagree?.trim())
+    .map((comment) => comment.disagree);
+
   return (
     <div className="mt-4 space-y-2">
-      {selectedQuotes.length > 0 && <SelectedQuotes quotes={selectedQuotes} />}
       {likes.length > 0 && <Likes likes={likes} />}
+      {opposingViews.length > 0 && <OpposingViews opposingViews={opposingViews} />}
       <AIAssistant
         opinionContent={opinionContent}
         response={response}
@@ -34,6 +39,7 @@ export function Resume({ comments, opinionContent }: ResumeProps) {
         analyzed={analyzed}
         onAnalyze={analyze}
       />
+      {selectedQuotes.length > 0 && <SelectedQuotes quotes={selectedQuotes} />}
     </div>
   );
 }

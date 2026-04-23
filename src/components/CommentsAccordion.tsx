@@ -82,19 +82,18 @@ const [isOpen, setIsOpen] = useState(false);
     return () => clearInterval(interval);
   }, [localCountdown, externalIsCommentFormOpen, onCommentFormOpenChange]);
 
-  const handleCloseForm = () => {
+  const selectedQuote = externalSelectedQuote ?? internalSelectedQuote;
+  const clearSelectedQuote = onClearSelectedQuote ?? (() => setInternalSelectedQuote(""));
+
+  const onFormClose = () => {
     if (externalIsCommentFormOpen !== undefined) {
       setCommentFormOpen(false);
     } else {
       handleCloseCommentForm();
     }
-    setPendingOpen(false);
-    setLocalCountdown(0);
+    clearSelectedQuote();
     setFormResetKey((k) => k + 1);
   };
-
-  const selectedQuote = externalSelectedQuote ?? internalSelectedQuote;
-  const clearSelectedQuote = onClearSelectedQuote ?? (() => setInternalSelectedQuote(""));
 
   return (
     <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-800/50">
@@ -124,7 +123,7 @@ const [isOpen, setIsOpen] = useState(false);
           ) : (
             <>
               <button
-                onClick={handleCloseForm}
+                onClick={onFormClose}
                 className="mt-2 text-sm font-medium text-blue-600 hover:underline dark:text-blue-400 sm:text-lg"
               >
                 Ukryj formularz
