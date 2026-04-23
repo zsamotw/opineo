@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { SearchIcon } from "./Icons";
 
 interface AIAssistantProps {
   opinionContent?: string;
@@ -34,7 +35,10 @@ export function AIAssistant({
         onClick={handleToggle}
         className="flex w-full cursor-pointer items-center justify-between text-lg font-medium text-purple-800 dark:text-purple-200"
       >
-        <span>🤖 Analiza retoryczna</span>
+        <span className="flex items-center gap-2">
+          <SearchIcon />
+          Analiza retoryczna
+        </span>
         <span>{isOpen ? "▼" : "▶"}</span>
       </button>
       {isOpen && (

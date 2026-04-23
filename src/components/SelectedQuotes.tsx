@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { QuoteIcon } from "./Icons";
 
 interface SelectedQuotesProps {
   quotes: string[];
@@ -23,7 +24,10 @@ export function SelectedQuotes({ quotes }: SelectedQuotesProps) {
         }}
         className="flex list-none items-center justify-between p-4 text-lg font-medium text-yellow-800 dark:text-yellow-200"
       >
-        <span>❝ Fragmenty warte uwagi ({quotes.length})</span>
+        <span className="flex items-center gap-2">
+          <QuoteIcon />
+          Fragmenty warte uwagi ({quotes.length})
+        </span>
         <span className="transition-transform {isOpen ? 'rotate-180' : ''}">{isOpen ? "▼" : "▶"}</span>
       </summary>
       {isOpen && (

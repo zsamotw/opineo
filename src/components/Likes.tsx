@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { HeartIcon } from "./Icons";
 
 interface LikesProps {
   likes: string[];
@@ -23,7 +24,10 @@ export function Likes({ likes }: LikesProps) {
         }}
         className="flex list-none items-center justify-between p-4 text-lg font-medium text-green-800 dark:text-green-200"
       >
-        <span>✓ Inni cenią ({likes?.length ?? 0})</span>
+        <span className="flex items-center gap-2">
+          <HeartIcon />
+          Inni cenią ({likes?.length ?? 0})
+        </span>
         <span>{isOpen ? "▼" : "▶"}</span>
       </summary>
       {isOpen && (

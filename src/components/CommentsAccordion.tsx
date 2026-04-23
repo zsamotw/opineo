@@ -5,6 +5,7 @@ import { Comment } from "../data/opinions";
 import { useComments } from "../lib/useComments";
 import { CommentList } from "./CommentList";
 import { CommentForm } from "./CommentForm";
+import { ChatBubbleIcon } from "./Icons";
 
 interface CommentsAccordionProps {
   initialComments: Comment[];
@@ -43,9 +44,7 @@ export function CommentsAccordion({
         className="flex w-full cursor-pointer items-center justify-between p-4 text-lg font-medium text-gray-700 dark:text-gray-200"
       >
         <span className="flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-          </svg>
+          <ChatBubbleIcon />
           Komentarze ({comments.length})
         </span>
         <span className="text-gray-500">{isOpen ? "▼" : "▶"}</span>
