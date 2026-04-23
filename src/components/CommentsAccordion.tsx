@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Comment } from "../data/opinions";
-import { CommentReply } from "../data/opinions";
+import { useState, useEffect } from "react";
+import { Comment, CommentReply } from "../data/opinions";
 import { useCountdownForm } from "../lib/useCountdownForm";
 import { CountdownIndicator } from "./CountdownIndicator";
 import { CommentList } from "./CommentList";
@@ -14,36 +13,87 @@ interface CommentsAccordionProps {
   comments: Comment[];
   opinionId: string;
   selectedQuote?: string;
-  onDisagreeChange?: (hasDisagree: boolean) => void;
   onClearSelectedQuote?: () => void;
   onAddComment: (comment: Omit<Comment, "replies" | "reactions">) => Promise<void>;
   onAddReply: (commentId: string, reply: Omit<CommentReply, "reactions">) => Promise<void>;
   onToggleReaction: (commentId: string, type: ReactionType) => Promise<void>;
   onToggleReplyReaction: (commentId: string, replyId: string, type: ReactionType) => Promise<void>;
   userId?: string;
+  isCommentFormOpen?: boolean;
+  onCommentFormOpenChange?: (isOpen: boolean) => void;
 }
 
 export function CommentsAccordion({ 
   comments,
   opinionId,
   selectedQuote: externalSelectedQuote,
-  onDisagreeChange,
   onClearSelectedQuote,
   onAddComment,
   onAddReply,
   onToggleReaction,
   onToggleReplyReaction,
   userId,
+  isCommentFormOpen: externalIsCommentFormOpen,
+  onCommentFormOpenChange,
 }: CommentsAccordionProps) {
-  const [isOpen, setIsOpen] = useState(false);
+const [isOpen, setIsOpen] = useState(false);
   const [internalSelectedQuote, setInternalSelectedQuote] = useState("");
+  const [pendingOpen, setPendingOpen] = useState(false);
+  const [localCountdown, setLocalCountdown] = useState(0);
+  const [formResetKey, setFormResetKey] = useState(0);
 
-  const { showForm: showCommentForm, countdown, openForm: handleOpenCommentForm, closeForm: handleCloseCommentForm } = useCountdownForm();
+  const { showForm: internalFormOpen, countdown: internalCountdown, openForm: handleOpenCommentForm, closeForm: handleCloseCommentForm } = useCountdownForm();
+
+  const countdown = externalIsCommentFormOpen !== undefined ? localCountdown : internalCountdown;
+  const isCommentFormOpen = (externalIsCommentFormOpen ?? internalFormOpen) || pendingOpen;
+
+  const setCommentFormOpen = (value: boolean) => {
+    onCommentFormOpenChange?.(value);
+    if (value) {
+      setPendingOpen(true);
+    } else {
+      setPendingOpen(false);
+    }
+  };
+
+  const handleOpenForm = () => {
+    if (externalIsCommentFormOpen !== undefined) {
+      setLocalCountdown(3);
+    } else {
+      handleOpenCommentForm();
+    }
+  };
+
+  useEffect(() => {
+    if (externalIsCommentFormOpen === undefined) return;
+    if (localCountdown === 0) return;
+
+    const interval = setInterval(() => {
+      setLocalCountdown((c) => {
+        if (c <= 1) {
+          setPendingOpen(true);
+          queueMicrotask(() => onCommentFormOpenChange?.(true));
+          return 0;
+        }
+        return c - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [localCountdown, externalIsCommentFormOpen, onCommentFormOpenChange]);
+
+  const handleCloseForm = () => {
+    if (externalIsCommentFormOpen !== undefined) {
+      setCommentFormOpen(false);
+    } else {
+      handleCloseCommentForm();
+    }
+    setPendingOpen(false);
+    setLocalCountdown(0);
+    setFormResetKey((k) => k + 1);
+  };
 
   const selectedQuote = externalSelectedQuote ?? internalSelectedQuote;
-  const setHasDisagree = (value: boolean) => {
-    onDisagreeChange?.(value);
-  };
   const clearSelectedQuote = onClearSelectedQuote ?? (() => setInternalSelectedQuote(""));
 
   return (
@@ -60,30 +110,30 @@ export function CommentsAccordion({
       </button>
       {isOpen && (
         <div className="border-t border-gray-200 p-4 pt-3 dark:border-gray-700">
-          {!showCommentForm ? (
+          {!isCommentFormOpen ? (
             <>
               <button
-                onClick={handleOpenCommentForm}
+                onClick={handleOpenForm}
                 disabled={countdown > 0}
                 className="mt-2 text-sm font-medium text-blue-600 hover:underline disabled:cursor-wait disabled:no-underline dark:text-blue-400 sm:text-lg"
               >
                 Odpowiedz
               </button>
-              <CountdownIndicator countdown={countdown} />
+              {countdown > 0 && <CountdownIndicator countdown={countdown} />}
             </>
           ) : (
             <>
               <button
-                onClick={handleCloseCommentForm}
+                onClick={handleCloseForm}
                 className="mt-2 text-sm font-medium text-blue-600 hover:underline dark:text-blue-400 sm:text-lg"
               >
                 Ukryj formularz
               </button>
               <CommentForm
+                key={formResetKey}
                 onSubmit={onAddComment}
                 commentCount={comments.length}
                 selectedQuote={selectedQuote}
-                onDisagreeChange={setHasDisagree}
                 onClearSelectedQuote={clearSelectedQuote}
               />
             </>

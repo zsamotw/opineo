@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useAuth } from "../context/AuthContext";
 
@@ -8,26 +8,22 @@ interface CommentFormProps {
   onSubmit: (comment: { id: string; user: { name: string; avatar: string | null }; date: string; agree: string; disagree: string; selectedQuote?: string; replies?: { id: string; user: { name: string; avatar: string | null }; date: string; agree: string; disagree: string; selectedQuote?: string }[] }) => void;
   commentCount: number;
   selectedQuote?: string;
-  onDisagreeChange?: (hasDisagree: boolean) => void;
   onClearSelectedQuote?: () => void;
 }
 
-export function CommentForm({ onSubmit, commentCount, selectedQuote, onDisagreeChange, onClearSelectedQuote }: CommentFormProps) {
+export function CommentForm({ onSubmit, commentCount, selectedQuote, onClearSelectedQuote }: CommentFormProps) {
   const { user } = useAuth();
-  const [agree, setAgree] = useState(selectedQuote || "");
+  const [agree, setAgree] = useState("");
   const [disagree, setDisagree] = useState("");
   const [error, setError] = useState("");
 
   const hasAgree = agree.trim().length > 0 || selectedQuote;
 
-  const handleDisagreeChange = (value: string) => {
-    setDisagree(value);
-    const hasDisagree = value.trim().length > 0;
-    onDisagreeChange?.(hasDisagree);
-    if (!hasDisagree && selectedQuote) {
-      onClearSelectedQuote?.();
-    }
-  };
+  useEffect(() => {
+    setAgree("");
+    setDisagree("");
+    setError("");
+  }, [selectedQuote]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,7 +62,6 @@ export function CommentForm({ onSubmit, commentCount, selectedQuote, onDisagreeC
 
     setAgree("");
     setDisagree("");
-    onDisagreeChange?.(false);
     onClearSelectedQuote?.();
   };
 
@@ -74,18 +69,18 @@ export function CommentForm({ onSubmit, commentCount, selectedQuote, onDisagreeC
     <div className="border-t border-gray-200 p-4 pt-4 dark:border-gray-700">
       {user ? (
         <form onSubmit={handleSubmit} className="flex flex-col gap-3 p-4">
-          {disagree.trim() && (
-            <div className="rounded-lg bg-yellow-50 p-3 text-lg dark:bg-yellow-900/20">
-              <p className="mb-2 font-medium text-yellow-800 dark:text-yellow-200">
-                Masz inne zdanie, super! Mimo to zaznacz fragment który warto rozważyć:
+          <div className="rounded-lg bg-yellow-50 p-3 text-lg dark:bg-yellow-900/20">
+            <p className="mb-2 font-medium text-yellow-800 dark:text-yellow-200">
+              {disagree.trim()
+                ? "Masz inne zdanie, super! Mimo to zaznacz fragment który warto rozważyć:"
+                : "Zaznacz fragment, który warto rozważyć:"}
+            </p>
+            {selectedQuote && (
+              <p className="mb-2 text-lg text-green-700 dark:text-green-300 whitespace-pre-wrap">
+                "{selectedQuote}"
               </p>
-              {selectedQuote && (
-                <p className="mb-2 text-lg text-green-700 dark:text-green-300 whitespace-pre-wrap">
-                  "{selectedQuote}"
-                </p>
-              )}
-            </div>
-          )}
+            )}
+          </div>
 
           <div className="relative">
             <div className="absolute -left-3 top-2 h-4 w-1 rounded-full bg-green-500"></div>
@@ -102,7 +97,7 @@ export function CommentForm({ onSubmit, commentCount, selectedQuote, onDisagreeC
             <div className="absolute -left-3 top-2 h-4 w-1 rounded-full bg-orange-500"></div>
             <textarea
               value={disagree}
-              onChange={(e) => handleDisagreeChange(e.target.value)}
+              onChange={(e) => setDisagree(e.target.value)}
               placeholder="Cenę tę perspektywę; pozwól, że przedstawię odmienne spojrzenie."
               rows={2}
               className="w-full rounded-lg border border-orange-300 bg-orange-50 px-3 py-2 text-lg focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500 dark:border-orange-700 dark:bg-orange-900/20 dark:text-gray-100 dark:placeholder-gray-500"
