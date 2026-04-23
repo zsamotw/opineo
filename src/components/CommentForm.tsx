@@ -77,7 +77,7 @@ export function CommentForm({ onSubmit, commentCount, selectedQuote, onDisagreeC
           {disagree.trim() && (
             <div className="rounded-lg bg-yellow-50 p-3 text-lg dark:bg-yellow-900/20">
               <p className="mb-2 font-medium text-yellow-800 dark:text-yellow-200">
-                Masz inne zdanie, ale mimo to zaznacz fragment który warto rozważyć:
+                Masz inne zdanie, super! Mimo to zaznacz fragment który warto rozważyć:
               </p>
               {selectedQuote && (
                 <p className="mb-2 text-lg text-green-700 dark:text-green-300 whitespace-pre-wrap">
@@ -92,7 +92,7 @@ export function CommentForm({ onSubmit, commentCount, selectedQuote, onDisagreeC
             <textarea
               value={agree}
               onChange={(e) => setAgree(e.target.value)}
-              placeholder={disagree.trim() ? "Napisz co cenisz w tej opini, mimo iż nie do końca się z nią zgadzasz" : "Zgadzam się — świetny punkt!"}
+              placeholder={disagree.trim() ? "...lub podziel się tym, co cenisz w tej opini" : "Zgadzam się — świetny punkt!"}
               rows={2}
               className="w-full rounded-lg border border-green-300 bg-green-50 px-3 py-2 text-lg focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500 dark:border-green-700 dark:bg-green-900/20 dark:text-gray-100 dark:placeholder-gray-500"
             />
