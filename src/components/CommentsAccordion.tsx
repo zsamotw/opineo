@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Comment } from "../data/opinions";
 import { useComments } from "../lib/useComments";
+import { useCountdownForm } from "../lib/useCountdownForm";
+import { CountdownIndicator } from "./CountdownIndicator";
 import { CommentList } from "./CommentList";
 import { CommentForm } from "./CommentForm";
 import { ChatBubbleIcon } from "./Icons";
@@ -23,8 +25,9 @@ export function CommentsAccordion({
   onClearSelectedQuote,
 }: CommentsAccordionProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [showCommentForm, setShowCommentForm] = useState(false);
   const [internalSelectedQuote, setInternalSelectedQuote] = useState("");
+
+  const { showForm: showCommentForm, countdown, openForm: handleOpenCommentForm, closeForm: handleCloseCommentForm } = useCountdownForm();
 
   const selectedQuote = externalSelectedQuote ?? internalSelectedQuote;
   const setHasDisagree = (value: boolean) => {
@@ -52,17 +55,21 @@ export function CommentsAccordion({
       {isOpen && (
         <div className="border-t border-gray-200 p-4 pt-3 dark:border-gray-700">
           {!showCommentForm ? (
-            <button
-              onClick={() => setShowCommentForm(true)}
-              className="mt-2 text-lg font-medium text-blue-600 hover:underline dark:text-blue-400"
-            >
-              Odpowiedz
-            </button>
+            <>
+              <button
+                onClick={handleOpenCommentForm}
+                disabled={countdown > 0}
+                className="mt-2 text-sm font-medium text-blue-600 hover:underline disabled:cursor-wait disabled:no-underline dark:text-blue-400 sm:text-lg"
+              >
+                Odpowiedz
+              </button>
+              <CountdownIndicator countdown={countdown} />
+            </>
           ) : (
             <>
               <button
-                onClick={() => setShowCommentForm(false)}
-                className="mt-2 text-lg font-medium text-blue-600 hover:underline dark:text-blue-400"
+                onClick={handleCloseCommentForm}
+                className="mt-2 text-sm font-medium text-blue-600 hover:underline dark:text-blue-400 sm:text-lg"
               >
                 Ukryj formularz
               </button>

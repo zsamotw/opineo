@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Comment, CommentReply } from "../data/opinions";
 import { ReactionType } from "../types/reaction";
 import { ReactionsBar } from "./ReactionsBar";
 import { FormattedDate } from "./FormattedDate";
+import { useCountdownForm } from "../lib/useCountdownForm";
+import { CountdownIndicator } from "./CountdownIndicator";
 
 interface CommentListProps {
   comments: Comment[];
@@ -71,7 +73,7 @@ function ReplyForm({ onSubmit }: ReplyFormProps) {
   if (!user) return null;
 
   return (
-    <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-3 rounded-lg border border-gray-200 bg-gray-100 p-4 dark:border-gray-600 dark:bg-gray-800">
+    <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-3 rounded-lg border border-gray-200 bg-gray-100 p-6 dark:border-gray-600 dark:bg-gray-800">
       <div className="relative">
         <div className="absolute -left-3 top-2 h-3 w-1 rounded-full bg-green-500"></div>
         <textarea
@@ -145,11 +147,11 @@ function CommentItem({
   onToggleReplyReaction: (commentId: string, replyId: string, type: ReactionType) => void;
   userId?: string;
 }) {
-  const [showReplyForm, setShowReplyForm] = useState(false);
+  const { showForm: showReplyForm, countdown, openForm: handleReplyClick, closeForm: closeReplyForm } = useCountdownForm();
 
   const handleReplySubmit = (reply: Omit<CommentReply, "reactions">) => {
     onAddReply(comment.id, reply);
-    setShowReplyForm(false);
+    closeReplyForm();
   };
 
   return (
@@ -198,11 +200,13 @@ function CommentItem({
             )}
           </div>
           <button
-            onClick={() => setShowReplyForm(!showReplyForm)}
-            className="mt-2 text-base font-medium text-blue-600 hover:underline dark:text-blue-400 sm:mt-2 sm:text-lg"
+            onClick={handleReplyClick}
+            disabled={countdown > 0}
+            className="mt-2 text-sm font-medium text-blue-600 hover:underline disabled:cursor-wait disabled:no-underline dark:text-blue-400 sm:mt-2 sm:text-lg"
           >
             {showReplyForm ? "Ukryj formularz" : "Odpowiedz"}
           </button>
+          <CountdownIndicator countdown={countdown} />
           {showReplyForm && <ReplyForm onSubmit={handleReplySubmit} />}
           {comment.replies && comment.replies.length > 0 && (
             <div className="mt-2 space-y-2 border-l-2 border-gray-300 pl-2 sm:mt-4 sm:space-y-3 sm:pl-4 dark:border-gray-600">

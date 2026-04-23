@@ -71,9 +71,9 @@ export function CommentForm({ onSubmit, commentCount, selectedQuote, onDisagreeC
   };
 
   return (
-    <div className="border-t border-gray-200 pt-4 dark:border-gray-700">
+    <div className="border-t border-gray-200 p-4 pt-4 dark:border-gray-700">
       {user ? (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3 p-4">
           {disagree.trim() && (
             <div className="rounded-lg bg-yellow-50 p-3 text-lg dark:bg-yellow-900/20">
               <p className="mb-2 font-medium text-yellow-800 dark:text-yellow-200">
