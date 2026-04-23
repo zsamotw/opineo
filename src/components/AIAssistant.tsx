@@ -37,7 +37,7 @@ export function AIAssistant({
       >
         <span className="flex items-center gap-2">
           <SearchIcon />
-          Analiza retoryczna
+          Analiza argumentacji
         </span>
         <span>{isOpen ? "▼" : "▶"}</span>
       </button>

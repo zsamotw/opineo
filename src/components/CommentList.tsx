@@ -194,7 +194,7 @@ function CommentItem({
             )}
             {comment.disagree && (
               <div className="grid grid-cols-1 gap-1 sm:grid-cols-[180px_1fr] sm:gap-x-3 sm:gap-y-1">
-                <span className="text-base font-medium text-orange-600 dark:text-orange-400 whitespace-nowrap sm:text-lg">✕ Nie zgadzam się:</span>
+                <span className="text-base font-medium text-orange-600 dark:text-orange-400 whitespace-nowrap sm:text-lg">✕ Mam wątpliwości:</span>
                 <p className="text-base leading-relaxed text-gray-700 dark:text-gray-300 sm:text-lg">{comment.disagree}</p>
               </div>
             )}
@@ -239,7 +239,7 @@ function CommentItem({
                     )}
                     {reply.disagree && (
                       <div className="grid grid-cols-1 gap-1 sm:grid-cols-[160px_1fr] sm:gap-2">
-                        <span className="text-sm font-medium text-orange-600 dark:text-orange-400 whitespace-nowrap sm:text-base">✕ Nie zgadzam się:</span>
+                        <span className="text-sm font-medium text-orange-600 dark:text-orange-400 whitespace-nowrap sm:text-base">✕ Mam wątpliwości:</span>
                         <p className="text-sm text-gray-700 dark:text-gray-300 sm:text-base">{reply.disagree}</p>
                       </div>
                     )}

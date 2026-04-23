@@ -26,7 +26,7 @@ export function SelectedQuotes({ quotes }: SelectedQuotesProps) {
       >
         <span className="flex items-center gap-2">
           <QuoteIcon size={16} />
-          Fragmenty warte uwagi ({quotes.length})
+          Warte uwagi ({quotes.length})
         </span>
         <span className="transition-transform {isOpen ? 'rotate-180' : ''}">{isOpen ? "▼" : "▶"}</span>
       </summary>
