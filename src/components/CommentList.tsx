@@ -71,26 +71,26 @@ function ReplyForm({ onSubmit }: ReplyFormProps) {
   if (!user) return null;
 
   return (
-    <form onSubmit={handleSubmit} className="mt-3 flex flex-col gap-2 rounded-lg border border-gray-200 bg-gray-100 p-3 dark:border-gray-600 dark:bg-gray-800">
+    <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-3 rounded-lg border border-gray-200 bg-gray-100 p-4 dark:border-gray-600 dark:bg-gray-800">
       <div className="relative">
-        <div className="absolute -left-2 top-2 h-3 w-1 rounded-full bg-green-500"></div>
+        <div className="absolute -left-3 top-2 h-3 w-1 rounded-full bg-green-500"></div>
         <textarea
           value={agree}
           onChange={(e) => setAgree(e.target.value)}
           placeholder={disagree.trim() ? "Napisz co cenisz w tej opini" : "Zgadzam się — świetny punkt!"}
-          rows={1}
-          className="w-full rounded-lg border border-green-300 bg-green-50 px-3 py-1.5 text-lg focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500 dark:border-green-700 dark:bg-green-900/20 dark:text-gray-100 dark:placeholder-gray-500"
+          rows={2}
+          className="w-full rounded-lg border border-green-300 bg-green-50 px-3 py-2 text-lg focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500 dark:border-green-700 dark:bg-green-900/20 dark:text-gray-100 dark:placeholder-gray-500"
         />
       </div>
 
       <div className="relative">
-        <div className="absolute -left-2 top-2 h-3 w-1 rounded-full bg-orange-500"></div>
+        <div className="absolute -left-3 top-2 h-3 w-1 rounded-full bg-orange-500"></div>
         <textarea
           value={disagree}
           onChange={(e) => setDisagree(e.target.value)}
           placeholder="Cenę tę perspektywę; pozwól, że przedstawię odmienne spojrzenie."
-          rows={1}
-          className="w-full rounded-lg border border-orange-300 bg-orange-50 px-3 py-1.5 text-lg focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500 dark:border-orange-700 dark:bg-orange-900/20 dark:text-gray-100 dark:placeholder-gray-500"
+          rows={2}
+          className="w-full rounded-lg border border-orange-300 bg-orange-50 px-3 py-2 text-lg focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500 dark:border-orange-700 dark:bg-orange-900/20 dark:text-gray-100 dark:placeholder-gray-500"
         />
       </div>
       {error && (
@@ -100,7 +100,7 @@ function ReplyForm({ onSubmit }: ReplyFormProps) {
         <button
           type="submit"
           disabled={!hasAgree}
-          className="rounded-lg bg-blue-600 px-3 py-1 text-base font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-lg bg-blue-600 px-4 py-2 text-base font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
         >
           Odpowiedz
         </button>
@@ -153,7 +153,7 @@ function CommentItem({
   };
 
   return (
-    <div className="rounded-lg bg-gray-50 p-3 dark:bg-gray-700">
+    <div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-700">
       <div className="flex gap-3">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-200 text-lg font-medium text-gray-600 dark:bg-gray-600 dark:text-gray-200">
           {comment.user.name.charAt(0)}
@@ -175,15 +175,15 @@ function CommentItem({
               size="lg"
             />
           </div>
-          <div className="mt-2 space-y-2">
+          <div className="mt-3 space-y-3">
             {comment.selectedQuote && (
-              <div className="grid grid-cols-[160px_1fr] gap-2">
+              <div className="grid grid-cols-[180px_1fr] gap-x-3 gap-y-1">
                 <span className="text-lg font-medium text-yellow-600 dark:text-yellow-400 whitespace-nowrap">❝ Warte uwagi:</span>
                 <p className="text-lg leading-relaxed text-gray-600 dark:text-gray-400 italic whitespace-pre-wrap">"{comment.selectedQuote}"</p>
               </div>
             )}
             {comment.agree && (
-              <div className="grid grid-cols-[160px_1fr] gap-2">
+              <div className="grid grid-cols-[180px_1fr] gap-x-3 gap-y-1">
                 <span className="text-lg font-medium text-green-600 dark:text-green-400 whitespace-nowrap">
                   ✓ {comment.disagree ? "Co cenię:" : "Zgadzam się:"}
                 </span>
@@ -191,7 +191,7 @@ function CommentItem({
               </div>
             )}
             {comment.disagree && (
-              <div className="grid grid-cols-[160px_1fr] gap-2">
+              <div className="grid grid-cols-[180px_1fr] gap-x-3 gap-y-1">
                 <span className="text-lg font-medium text-orange-600 dark:text-orange-400 whitespace-nowrap">✕ Nie zgadzam się:</span>
                 <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300">{comment.disagree}</p>
               </div>
@@ -205,15 +205,15 @@ function CommentItem({
           </button>
           {showReplyForm && <ReplyForm onSubmit={handleReplySubmit} />}
           {comment.replies && comment.replies.length > 0 && (
-            <div className="mt-3 space-y-2 border-l-2 border-gray-300 pl-3 dark:border-gray-600">
+            <div className="mt-4 space-y-3 border-l-2 border-gray-300 pl-4 dark:border-gray-600">
               {comment.replies.map((reply) => (
-                <div key={reply.id} className="rounded bg-gray-100 p-2 dark:bg-gray-800">
+<div key={reply.id} className="rounded bg-gray-100 p-3 dark:bg-gray-800">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span className="text-base font-medium text-gray-900 dark:text-gray-100">
                         {reply.user.name}
                       </span>
-<span className="text-base text-gray-500 dark:text-gray-400">
+                      <span className="text-base text-gray-500 dark:text-gray-400">
                         <FormattedDate date={reply.date} />
                       </span>
                     </div>
@@ -224,9 +224,9 @@ function CommentItem({
                       size="md"
                     />
                   </div>
-                  <div className="mt-1 space-y-1">
+                  <div className="mt-2 space-y-2">
                     {reply.agree && (
-                      <div className="grid grid-cols-[150px_1fr] gap-1">
+                      <div className="grid grid-cols-[160px_1fr] gap-2">
                         <span className="text-base font-medium text-green-600 dark:text-green-400 whitespace-nowrap">
                           ✓ {reply.disagree ? "Co cenię:" : "Zgadzam się:"}
                         </span>
@@ -234,7 +234,7 @@ function CommentItem({
                       </div>
                     )}
                     {reply.disagree && (
-                      <div className="grid grid-cols-[150px_1fr] gap-1">
+                      <div className="grid grid-cols-[160px_1fr] gap-2">
                         <span className="text-base font-medium text-orange-600 dark:text-orange-400 whitespace-nowrap">✕ Nie zgadzam się:</span>
                         <p className="text-base text-gray-700 dark:text-gray-300">{reply.disagree}</p>
                       </div>
