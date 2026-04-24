@@ -112,7 +112,7 @@ const [isOpen, setIsOpen] = useState(false);
               <button
                 onClick={handleOpenForm}
                 disabled={countdown > 0}
-                className="mt-2 text-sm font-medium text-blue-600 hover:underline disabled:cursor-wait disabled:no-underline dark:text-blue-400 sm:text-lg"
+                className="mt-3 text-xl font-medium text-blue-600 hover:underline disabled:cursor-wait disabled:no-underline dark:text-blue-400"
               >
                 Odpowiedz
               </button>
@@ -122,7 +122,7 @@ const [isOpen, setIsOpen] = useState(false);
             <>
               <button
                 onClick={onFormClose}
-                className="mt-2 text-sm font-medium text-blue-600 hover:underline dark:text-blue-400 sm:text-lg"
+                className="mt-3 text-xl font-medium text-blue-600 hover:underline dark:text-blue-400"
               >
                 Ukryj formularz
               </button>

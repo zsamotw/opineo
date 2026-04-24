@@ -189,7 +189,7 @@ function CommentItem({
           <button
             onClick={handleReplyClick}
             disabled={countdown > 0}
-            className="mt-2 text-sm font-medium text-blue-600 hover:underline disabled:cursor-wait disabled:no-underline dark:text-blue-400 sm:mt-2 sm:text-lg"
+            className="mt-3 text-xl font-medium text-blue-600 hover:underline disabled:cursor-wait disabled:no-underline dark:text-blue-400"
           >
             {showReplyForm ? "Ukryj formularz" : "Odpowiedz"}
           </button>
