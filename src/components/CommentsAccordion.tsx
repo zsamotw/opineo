@@ -11,7 +11,6 @@ import { ReactionType } from "../types/reaction";
 
 interface CommentsAccordionProps {
   comments: Comment[];
-  opinionId: string;
   selectedQuote?: string;
   onClearSelectedQuote?: () => void;
   onAddComment: (comment: Omit<Comment, "replies" | "reactions">) => Promise<void>;
@@ -25,7 +24,6 @@ interface CommentsAccordionProps {
 
 export function CommentsAccordion({ 
   comments,
-  opinionId,
   selectedQuote: externalSelectedQuote,
   onClearSelectedQuote,
   onAddComment,

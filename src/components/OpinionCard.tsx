@@ -59,7 +59,6 @@ const { comments, addComment, addReply, toggleReaction, toggleReplyReaction } = 
         <Resume comments={comments} opinionContent={opinion.content} />
         <CommentsAccordion
           comments={comments}
-          opinionId={opinion.id}
           selectedQuote={selectedQuote}
           onClearSelectedQuote={() => setSelectedQuote("")}
           onAddComment={addComment}
