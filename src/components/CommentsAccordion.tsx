@@ -131,7 +131,6 @@ const [isOpen, setIsOpen] = useState(false);
               <CommentForm
                 key={formResetKey}
                 onSubmit={onAddComment}
-                commentCount={comments.length}
                 selectedQuote={selectedQuote}
                 onClearSelectedQuote={clearSelectedQuote}
               />

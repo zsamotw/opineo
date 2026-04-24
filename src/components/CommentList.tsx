@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Comment, CommentReply } from "../data/opinions";
 import { ReactionType } from "../types/reaction";
@@ -8,6 +7,7 @@ import { ReactionsBar } from "./ReactionsBar";
 import { FormattedDate } from "./FormattedDate";
 import { useCountdownForm } from "../lib/useCountdownForm";
 import { CountdownIndicator } from "./CountdownIndicator";
+import { useCommentForm } from "../lib/useCommentForm";
 
 interface CommentListProps {
   comments: Comment[];
@@ -18,62 +18,41 @@ interface CommentListProps {
 }
 
 interface ReplyFormProps {
-  onSubmit: (reply: { id: string; user: { name: string; avatar: string | null }; date: string; agree: string; disagree: string; selectedQuote?: string }) => void;
+  onSubmit: (reply: {
+    id: string;
+    user: { name: string; avatar: string | null };
+    date: string;
+    agree: string;
+    disagree: string;
+    selectedQuote?: string;
+  }) => void;
 }
 
 function ReplyForm({ onSubmit }: ReplyFormProps) {
   const { user } = useAuth();
-  const [agree, setAgree] = useState("");
-  const [disagree, setDisagree] = useState("");
-  const [error, setError] = useState("");
-  const [selectedQuote, setSelectedQuote] = useState("");
+  const { agree, disagree, error, hasAgree, setAgree, setDisagree, handleReplySubmit, reset } = useCommentForm({
+    onSubmit: (comment) => {
+      onSubmit({
+        id: comment.id,
+        user: comment.user,
+        date: comment.date,
+        agree: comment.agree,
+        disagree: comment.disagree,
+        selectedQuote: comment.selectedQuote,
+      });
+      reset();
+    },
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const onFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-
-    if (!agree.trim() && !disagree.trim()) {
-      setError("Musisz wpisać z czym się zgadzasz lub nie zgadzasz");
-      return;
-    }
-
-    if (disagree.trim() && !agree.trim()) {
-      setError("Jeśli wyrażasz niezgodę, musisz najpierw wskazać z czym się zgadzasz");
-      return;
-    }
-
-    if (agree.trim().length > 500) {
-      setError("Tekst zgody nie może przekraczać 500 znaków");
-      return;
-    }
-
-    if (disagree.trim().length > 500) {
-      setError("Tekst niezgody nie może przekraczać 500 znaków");
-      return;
-    }
-
-    if (!user) return;
-
-    onSubmit({
-      id: `r${Date.now()}`,
-      user: { name: `${user.firstName} ${user.lastName}`, avatar: null },
-      date: new Date().toISOString(),
-      agree: agree.trim(),
-      disagree: disagree.trim(),
-      selectedQuote: selectedQuote || undefined,
-    });
-
-    setAgree("");
-    setDisagree("");
-    setSelectedQuote("");
+    handleReplySubmit(user);
   };
-
-  const hasAgree = agree.trim() || selectedQuote;
 
   if (!user) return null;
 
   return (
-    <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-3 rounded-lg border border-gray-200 bg-gray-100 p-6 dark:border-gray-600 dark:bg-gray-800">
+    <form onSubmit={onFormSubmit} className="mt-4 flex flex-col gap-3 rounded-lg border border-gray-200 bg-gray-100 p-6 dark:border-gray-600 dark:bg-gray-800">
       <div className="relative">
         <div className="absolute -left-3 top-2 h-3 w-1 rounded-full bg-green-500"></div>
         <textarea
@@ -111,10 +90,18 @@ function ReplyForm({ onSubmit }: ReplyFormProps) {
   );
 }
 
+interface CommentListProps {
+  comments: Comment[];
+  onAddReply: (commentId: string, reply: Omit<CommentReply, "reactions">) => void;
+  onToggleReaction: (commentId: string, type: ReactionType) => void;
+  onToggleReplyReaction: (commentId: string, replyId: string, type: ReactionType) => void;
+  userId?: string;
+}
+
 export function CommentList({ comments, onAddReply, onToggleReaction, onToggleReplyReaction, userId }: CommentListProps) {
   if (comments.length === 0) return null;
 
-  const sortedComments = [...comments].sort((a, b) => 
+  const sortedComments = [...comments].sort((a, b) =>
     new Date(b.date).getTime() - new Date(a.date).getTime()
   );
 
@@ -181,7 +168,7 @@ function CommentItem({
             {comment.selectedQuote && (
               <div className="grid grid-cols-1 gap-1 sm:grid-cols-[180px_1fr] sm:gap-x-3 sm:gap-y-1">
                 <span className="text-base font-medium text-yellow-600 dark:text-yellow-400 whitespace-nowrap sm:text-lg">❝ Warte uwagi:</span>
-                <p className="text-base leading-relaxed text-gray-600 dark:text-gray-400 italic whitespace-pre-wrap sm:text-lg">"{comment.selectedQuote}"</p>
+                <p className="text-base leading-relaxed text-gray-600 dark:text-gray-400 italic whitespace-pre-wrap sm:text-lg">&ldquo;{comment.selectedQuote}&rdquo;</p>
               </div>
             )}
             {comment.agree && (

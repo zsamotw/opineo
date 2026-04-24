@@ -1,77 +1,63 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { useAuth } from "../context/AuthContext";
+import { useCommentForm } from "../lib/useCommentForm";
 
 interface CommentFormProps {
-  onSubmit: (comment: { id: string; user: { name: string; avatar: string | null }; date: string; agree: string; disagree: string; selectedQuote?: string; replies?: { id: string; user: { name: string; avatar: string | null }; date: string; agree: string; disagree: string; selectedQuote?: string }[] }) => void;
-  commentCount: number;
+  onSubmit: (comment: {
+    id: string;
+    user: { name: string; avatar: string | null };
+    date: string;
+    agree: string;
+    disagree: string;
+    selectedQuote?: string;
+    replies?: {
+      id: string;
+      user: { name: string; avatar: string | null };
+      date: string;
+      agree: string;
+      disagree: string;
+      selectedQuote?: string;
+    }[];
+  }) => void;
   selectedQuote?: string;
   onClearSelectedQuote?: () => void;
 }
 
-export function CommentForm({ onSubmit, commentCount, selectedQuote, onClearSelectedQuote }: CommentFormProps) {
+export function CommentForm({
+  onSubmit,
+  selectedQuote: externalSelectedQuote,
+  onClearSelectedQuote,
+}: CommentFormProps) {
   const { user } = useAuth();
-  const [agree, setAgree] = useState("");
-  const [disagree, setDisagree] = useState("");
-  const [error, setError] = useState("");
-
-  const hasAgree = agree.trim().length > 0 || selectedQuote;
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-
-    if (!hasAgree && !disagree.trim()) {
-      setError("Musisz wpisać z czym się zgadzasz lub nie zgadzasz");
-      return;
-    }
-
-    if (disagree.trim() && !hasAgree) {
-      setError("Jeśli wyrażasz niezgodę, musisz najpierw wskazać z czym się zgadzasz");
-      return;
-    }
-
-    if (agree.trim().length > 500) {
-      setError("Tekst zgody nie może przekraczać 500 znaków");
-      return;
-    }
-
-    if (disagree.trim().length > 500) {
-      setError("Tekst niezgody nie może przekraczać 500 znaków");
-      return;
-    }
-
-    if (!user) return;
-
-    onSubmit({
-      id: `c${Date.now()}`,
-      user: { name: `${user.firstName} ${user.lastName}`, avatar: null },
-      date: new Date().toISOString(),
-      agree: agree.trim(),
-      disagree: disagree.trim(),
-      selectedQuote: selectedQuote || undefined,
+  const { agree, disagree, error, hasAgree, setAgree, setDisagree, handleSubmit } =
+    useCommentForm({
+      initialSelectedQuote: externalSelectedQuote,
+      onSubmit,
     });
 
-    setAgree("");
-    setDisagree("");
+  const onFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleSubmit(user);
     onClearSelectedQuote?.();
   };
+
+  const displayedQuote = externalSelectedQuote;
 
   return (
     <div className="border-t border-gray-200 p-4 pt-4 dark:border-gray-700">
       {user ? (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-3 p-4">
+        <form onSubmit={onFormSubmit} className="flex flex-col gap-3 p-4">
           <div className="rounded-lg bg-yellow-50 p-3 text-lg dark:bg-yellow-900/20">
             <p className="mb-2 font-medium text-yellow-800 dark:text-yellow-200">
               {disagree.trim()
                 ? "Masz inne zdanie, super! Mimo to zaznacz fragment który warto rozważyć:"
                 : "Zaznacz fragment, który warto rozważyć:"}
             </p>
-            {selectedQuote && (
+            {displayedQuote && (
               <p className="mb-2 text-lg text-green-700 dark:text-green-300 whitespace-pre-wrap">
-                "{selectedQuote}"
+                &ldquo;{displayedQuote}&rdquo;
               </p>
             )}
           </div>
