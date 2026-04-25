@@ -16,6 +16,7 @@ import { useUserId } from "../lib/useUserId";
 interface OpinionsContextType {
   opinions: Opinion[];
   loading: boolean;
+  isLoaded: boolean;
   error: string | null;
   
   // Opinion actions
@@ -73,6 +74,7 @@ function mergeReplyReaction(comments: Comment[], commentId: string, replyId: str
 export function OpinionsProvider({ children }: OpinionsProviderProps) {
   const [opinions, setOpinions] = useState<Opinion[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const userId = useUserId();
 
@@ -93,6 +95,7 @@ export function OpinionsProvider({ children }: OpinionsProviderProps) {
       setError(err instanceof Error ? err.message : "Failed to load opinions");
     } finally {
       setLoading(false);
+      setIsLoaded(true);
     }
   }, []);
 
@@ -247,6 +250,7 @@ export function OpinionsProvider({ children }: OpinionsProviderProps) {
       value={{
         opinions,
         loading,
+        isLoaded,
         error,
         getOpinionComments,
         addComment,

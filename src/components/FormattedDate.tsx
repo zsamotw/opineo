@@ -1,9 +1,31 @@
+"use client";
+
+import { useState, useEffect } from "react";
+
 interface FormattedDateProps {
   date: string;
   className?: string;
 }
 
 export function FormattedDate({ date, className = "" }: FormattedDateProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <span className={className}>
+        {new Date(date).toLocaleDateString("pl-PL", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        })}
+      </span>
+    );
+  }
+
   const { date: formattedDate, time } = formatDateTime(date);
   
   return (
