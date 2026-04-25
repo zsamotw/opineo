@@ -77,13 +77,13 @@ function ReplyForm({ onSubmit }: ReplyFormProps) {
       {error && (
         <p className="text-base text-red-600 dark:text-red-400">{error}</p>
       )}
-      <div className="flex justify-end gap-2">
+      <div className="flex justify-start gap-2">
         <button
           type="submit"
           disabled={!hasAgree}
           className="rounded-lg bg-blue-600 px-4 py-2 text-base font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          Odpowiedz
+          Wyślij
         </button>
       </div>
     </form>
