@@ -67,13 +67,13 @@ const [isOpen, setIsOpen] = useState(false);
     if (localCountdown === 0) return;
 
     const interval = setInterval(() => {
-      setLocalCountdown((c) => {
-        if (c <= 1) {
+      setLocalCountdown((countdown) => {
+        if (countdown <= 1) {
           setPendingOpen(true);
           queueMicrotask(() => onCommentFormOpenChange?.(true));
           return 0;
         }
-        return c - 1;
+        return countdown - 1;
       });
     }, 1000);
 
@@ -90,7 +90,7 @@ const [isOpen, setIsOpen] = useState(false);
       handleCloseCommentForm();
     }
     clearSelectedQuote();
-    setFormResetKey((k) => k + 1);
+    setFormResetKey((key) => key + 1);
   };
 
   return (

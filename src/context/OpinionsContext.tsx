@@ -38,10 +38,10 @@ function mergeCommentReaction(comments: Comment[], commentId: string, type: Reac
   return comments.map((comment) => {
     if (comment.id === commentId) {
       const existingReaction = comment.reactions.find(
-        (r) => r.type === type && r.userId === userId
+        (reaction) => reaction.type === type && reaction.userId === userId
       );
       const newReactions = existingReaction
-        ? comment.reactions.filter((r) => !(r.type === type && r.userId === userId))
+        ? comment.reactions.filter((reaction) => !(reaction.type === type && reaction.userId === userId))
         : [...comment.reactions, { type, userId }];
       return { ...comment, reactions: newReactions };
     }
@@ -55,10 +55,10 @@ function mergeReplyReaction(comments: Comment[], commentId: string, replyId: str
       const newReplies = comment.replies.map((reply) => {
         if (reply.id === replyId) {
           const existingReaction = reply.reactions.find(
-            (r) => r.type === type && r.userId === userId
+            (reaction) => reaction.type === type && reaction.userId === userId
           );
           const newReactions = existingReaction
-            ? reply.reactions.filter((r) => !(r.type === type && r.userId === userId))
+            ? reply.reactions.filter((reaction) => !(reaction.type === type && reaction.userId === userId))
             : [...reply.reactions, { type, userId }];
           return { ...reply, reactions: newReactions };
         }
@@ -101,7 +101,7 @@ export function OpinionsProvider({ children }: OpinionsProviderProps) {
   }, [loadOpinions]);
 
   const getOpinionComments = useCallback((opinionId: string): Comment[] => {
-    const opinion = opinions.find((o) => o.id === opinionId);
+    const opinion = opinions.find((opinion) => opinion.id === opinionId);
     return opinion?.comments || [];
   }, [opinions]);
 
@@ -120,7 +120,7 @@ export function OpinionsProvider({ children }: OpinionsProviderProps) {
       })
     );
 
-    const opinion = opinions.find((o) => o.id === opinionId);
+    const opinion = opinions.find((opinion) => opinion.id === opinionId);
     if (opinion) {
       await updateOpinionComments(opinionId, [...opinion.comments, newComment]);
     }
@@ -149,7 +149,7 @@ export function OpinionsProvider({ children }: OpinionsProviderProps) {
       })
     );
 
-    const opinion = opinions.find((o) => o.id === opinionId);
+    const opinion = opinions.find((opinion) => opinion.id === opinionId);
     if (opinion) {
       const updatedComments = opinion.comments.map((comment) => {
         if (comment.id === commentId) {
@@ -174,7 +174,7 @@ export function OpinionsProvider({ children }: OpinionsProviderProps) {
       })
     );
 
-    const opinion = opinions.find((o) => o.id === opinionId);
+    const opinion = opinions.find((opinion) => opinion.id === opinionId);
     if (opinion) {
       const updatedComments = mergeCommentReaction(opinion.comments, commentId, type, userId);
       await updateOpinionComments(opinionId, updatedComments);
@@ -194,7 +194,7 @@ export function OpinionsProvider({ children }: OpinionsProviderProps) {
       })
     );
 
-    const opinion = opinions.find((o) => o.id === opinionId);
+    const opinion = opinions.find((opinion) => opinion.id === opinionId);
     if (opinion) {
       const updatedComments = mergeReplyReaction(opinion.comments, commentId, replyId, type, userId);
       await updateOpinionComments(opinionId, updatedComments);
@@ -208,7 +208,7 @@ export function OpinionsProvider({ children }: OpinionsProviderProps) {
           const reactions = opinion.reactions || [];
           const newReactions = [...reactions];
           types.forEach((type) => {
-            const existingIndex = newReactions.findIndex((r) => r.type === type && r.userId === userId);
+            const existingIndex = newReactions.findIndex((reaction) => reaction.type === type && reaction.userId === userId);
             if (existingIndex >= 0) {
               newReactions.splice(existingIndex, 1);
             } else {
@@ -221,12 +221,12 @@ export function OpinionsProvider({ children }: OpinionsProviderProps) {
       })
     );
 
-    const opinion = opinions.find((o) => o.id === opinionId);
+    const opinion = opinions.find((opinion) => opinion.id === opinionId);
     if (opinion) {
       const reactions = opinion.reactions || [];
       const newReactions = [...reactions];
       types.forEach((type) => {
-        const existingIndex = newReactions.findIndex((r) => r.type === type && r.userId === userId);
+        const existingIndex = newReactions.findIndex((reaction) => reaction.type === type && reaction.userId === userId);
         if (existingIndex >= 0) {
           newReactions.splice(existingIndex, 1);
         } else {
@@ -272,7 +272,7 @@ export function useOpinions() {
 
 export function useOpinion(opinionId: string) {
   const { opinions } = useOpinions();
-  return opinions.find((o) => o.id === opinionId);
+  return opinions.find((opinion) => opinion.id === opinionId);
 }
 
 export function useOpinionComments(opinionId: string) {

@@ -67,7 +67,7 @@ export function CommentForm({
             <textarea
               value={agree}
               onChange={(e) => setAgree(e.target.value)}
-              placeholder={disagree.trim() ? "...lub podziel się tym, co cenisz w tej opini" : "Zgadzam się — świetny punkt!"}
+              placeholder={disagree.trim() ? "...lub podziel się tym, co cenisz w tej opinii" : "Zgadzam się — świetny punkt!"}
               rows={2}
               className="w-full rounded-lg border border-green-300 bg-green-50 px-3 py-2 text-lg focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500 dark:border-green-700 dark:bg-green-900/20 dark:text-gray-100 dark:placeholder-gray-500"
             />
