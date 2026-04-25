@@ -1,13 +1,12 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
 import { Comment, CommentReply } from "../data/opinions";
-import { updateOpinionComments } from "../lib/db";
-import { useUserId } from "../lib/useUserId";
 import { ReactionType } from "../types/reaction";
+import { useOpinions } from "../context/OpinionsContext";
+import { useUserId } from "../lib/useUserId";
 
 interface UseCommentsOptions {
-  initialComments: Comment[];
   opinionId: string;
 }
 
@@ -20,81 +19,46 @@ interface UseCommentsReturn {
   userId?: string;
 }
 
-export function useComments({ initialComments, opinionId }: UseCommentsOptions): UseCommentsReturn {
-  const [comments, setComments] = useState(initialComments);
+export function useComments({ opinionId }: UseCommentsOptions): UseCommentsReturn {
+  const { getOpinionComments, addComment, addReply, toggleCommentReaction, toggleReplyReaction } = useOpinions();
   const userId = useUserId();
 
-  const addComment = useCallback(async (comment: Omit<Comment, "replies" | "reactions">) => {
-    const newComment = { ...comment, replies: [], reactions: [] };
-    setComments((prev) => {
-      const newComments = [...prev, newComment];
-      updateOpinionComments(opinionId, newComments);
-      return newComments;
-    });
-  }, [opinionId]);
+  const comments = getOpinionComments(opinionId);
 
-  const addReply = useCallback(async (commentId: string, reply: Omit<CommentReply, "reactions">) => {
-    const newReply = { ...reply, reactions: [] };
-    setComments((prev) => {
-      const newComments = prev.map((comment) => {
-        if (comment.id === commentId) {
-          return { ...comment, replies: [...(comment.replies || []), newReply] };
-        }
-        return comment;
-      });
-      updateOpinionComments(opinionId, newComments);
-      return newComments;
-    });
-  }, [opinionId]);
+  const handleAddComment = useCallback(
+    async (comment: Omit<Comment, "replies" | "reactions">) => {
+      await addComment(opinionId, comment);
+    },
+    [opinionId, addComment]
+  );
 
-  const toggleReaction = useCallback(async (commentId: string, type: ReactionType) => {
-    if (!userId) return;
-    setComments((prev) => {
-      const newComments = prev.map((comment) => {
-        if (comment.id === commentId) {
-          const existingReaction = (comment.reactions || []).find((reaction) => reaction.type === type && reaction.userId === userId);
-          const newReactions = existingReaction
-            ? (comment.reactions || []).filter((reaction) => !(reaction.type === type && reaction.userId === userId))
-            : [...(comment.reactions || []), { type, userId }];
-          return { ...comment, reactions: newReactions };
-        }
-        return comment;
-      });
-      updateOpinionComments(opinionId, newComments);
-      return newComments;
-    });
-  }, [opinionId, userId]);
+  const handleAddReply = useCallback(
+    async (commentId: string, reply: Omit<CommentReply, "reactions">) => {
+      await addReply(opinionId, commentId, reply);
+    },
+    [opinionId, addReply]
+  );
 
-const toggleReplyReaction = useCallback(async (commentId: string, replyId: string, type: ReactionType) => {
-    if (!userId) return;
-    setComments((prev) => {
-      const newComments = prev.map((comment) => {
-        if (comment.id === commentId) {
-          const newReplies = (comment.replies || []).map((reply) => {
-            if (reply.id === replyId) {
-              const existingReaction = (reply.reactions || []).find((reaction) => reaction.type === type && reaction.userId === userId);
-              const newReactions = existingReaction
-                ? (reply.reactions || []).filter((reaction) => !(reaction.type === type && reaction.userId === userId))
-                : [...(reply.reactions || []), { type, userId }];
-              return { ...reply, reactions: newReactions };
-            }
-            return reply;
-          });
-          return { ...comment, replies: newReplies };
-        }
-        return comment;
-      });
-      updateOpinionComments(opinionId, newComments);
-      return newComments;
-    });
-  }, [opinionId, userId]);
+  const handleToggleReaction = useCallback(
+    async (commentId: string, type: ReactionType) => {
+      await toggleCommentReaction(opinionId, commentId, type);
+    },
+    [opinionId, toggleCommentReaction]
+  );
+
+  const handleToggleReplyReaction = useCallback(
+    async (commentId: string, replyId: string, type: ReactionType) => {
+      await toggleReplyReaction(opinionId, commentId, replyId, type);
+    },
+    [opinionId, toggleReplyReaction]
+  );
 
   return {
     comments,
-    addComment,
-    addReply,
-    toggleReaction,
-    toggleReplyReaction,
+    addComment: handleAddComment,
+    addReply: handleAddReply,
+    toggleReaction: handleToggleReaction,
+    toggleReplyReaction: handleToggleReplyReaction,
     userId,
   };
 }

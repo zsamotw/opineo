@@ -1,11 +1,8 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useAuth } from "@/src/context/AuthContext";
-import { Opinion } from "@/src/data/opinions";
-import { getOpinions, addOpinion as saveOpinion, hasStoredOpinions, initializeMockData } from "@/src/lib/db";
-import { mockOpinions } from "@/src/data/mockData";
+import { useOpinions } from "@/src/context/OpinionsContext";
 import { OpinionCard } from "@/src/components/OpinionCard";
 import { OpinionForm } from "@/src/components/OpinionForm";
 import { ErrorBoundary } from "@/src/components/ErrorBoundary";
@@ -83,42 +80,7 @@ function EmptyState() {
 }
 
 export default function Home() {
-  const [opinions, setOpinions] = useState<Opinion[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  const loadOpinions = useCallback(async () => {
-    try {
-      const hasData = await hasStoredOpinions();
-      if (!hasData) {
-        await initializeMockData(mockOpinions);
-      }
-      const loadedOpinions = await getOpinions();
-      const sortedOpinions = loadedOpinions.toSorted((a, b) => {
-        const dateA = new Date(a.date).getTime() || 0;
-        const dateB = new Date(b.date).getTime() || 0;
-        return dateB - dateA;
-      });
-      setOpinions(sortedOpinions);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    loadOpinions();
-  }, [loadOpinions]);
-
-  const handleAddOpinion = useCallback(async (opinion: Opinion) => {
-    await saveOpinion(opinion);
-    setOpinions((prev) => {
-      const updated = [opinion, ...prev];
-      return updated.toSorted((a, b) => {
-        const dateA = new Date(a.date).getTime() || 0;
-        const dateB = new Date(b.date).getTime() || 0;
-        return dateB - dateA;
-      });
-    });
-  }, []);
+  const { opinions, loading } = useOpinions();
 
   if (loading) {
     return (
@@ -137,7 +99,7 @@ export default function Home() {
         <Navbar />
         <div className="flex flex-1 flex-col items-center py-12 px-4">
           <div className="w-full px-4 sm:px-8 flex flex-col gap-4">
-            <OpinionForm onAddOpinion={handleAddOpinion} />
+            <OpinionForm />
             {opinions.length === 0 ? (
               <EmptyState />
             ) : (

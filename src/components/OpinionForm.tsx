@@ -2,32 +2,34 @@
 
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { useOpinions } from "../context/OpinionsContext";
+import { addOpinion as saveOpinion } from "../lib/db";
 
-interface OpinionFormProps {
-  onAddOpinion: (opinion: { id: string; user: { name: string; avatar: string | null }; date: string; content: string; comments: []; reactions: [] }) => void;
-}
-
-export function OpinionForm({ onAddOpinion }: OpinionFormProps) {
+export function OpinionForm() {
   const { user } = useAuth();
+  const { refreshOpinions } = useOpinions();
   const [content, setContent] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!content.trim() || !user) return;
 
-    onAddOpinion({
+    const opinion = {
       id: `o${Date.now()}`,
       user: { name: `${user.firstName} ${user.lastName}`, avatar: null },
       date: new Date().toISOString(),
       content: content.trim(),
       comments: [],
       reactions: [],
-    });
+    };
+
+    await saveOpinion(opinion);
+    await refreshOpinions();
 
     setContent("");
   };
 
-  if (!user) return <></>;
+  if (!user) return null;
 
   return (
     <form onSubmit={handleSubmit} className="mb-6 flex gap-2">

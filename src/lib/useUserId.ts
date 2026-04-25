@@ -1,14 +1,23 @@
-import { useMemo } from "react";
+import { useState, useEffect } from "react";
 
 export function useUserId(): string {
-  return useMemo(() => {
+  const [userId, setUserId] = useState("");
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    
     const stored = window.localStorage.getItem("currentUser");
-    if (!stored) return "";
+    if (!stored) {
+      setUserId("");
+      return;
+    }
     try {
       const user = JSON.parse(stored);
-      return user?.id || "";
+      setUserId(user?.id || "");
     } catch {
-      return "";
+      setUserId("");
     }
   }, []);
+
+  return userId;
 }
