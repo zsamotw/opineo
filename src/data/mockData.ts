@@ -1,18 +1,18 @@
 import { Opinion } from "./opinions";
 
-function generateId(): string {
-  return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+function generateId(type: string, index: number): string {
+  return `${type}-${index}`;
 }
 
 export const mockOpinions: Opinion[] = [
   {
-    id: generateId(),
+    id: generateId("opinion", 1),
     user: { name: "Katarzyna Wojciechowska", avatar: null },
     date: "2025-03-18T14:30:00Z",
     content: "Demokratyczne instytucje w Polsce wymagają głębokiej reformy, a nie kosmetycznych zmian. Problemy wynikające z konstytucyjnych ograniczeń kadencyjności, słabości sądownictwa oraz rosnącej polaryzacji mediów publicznych nie zostaną rozwiązane przez kolejne change'y w ramach obecnego systemu. Potrzebujemy rzeczywistej debaty o modelu ustrojowym, a nie tylko wymianie ludzi na stanowiskach. Koniec z iluzją, że same wybory wystarczą do funkcjonowania demokracji, gdy instytucje są systematycznie osłabiane przez wszystkie opcje polityczne.",
     comments: [
       {
-        id: generateId(),
+        id: "comment-1",
         user: { name: "Michał Rutkowski", avatar: null },
         date: "2025-03-18T15:45:00Z",
         agree: "Trafnie zauważasz fundamentalny problem polskiej demokracji. Konstantytucja z 1997 roku była kompromisem ówczesnych sił politycznych i nie nadąża za zmianami społecznymi. Problem kadencyjności jest symptomem głębszego kryzysu legitymizacji władzy sądowniczej i rosnącej nieufności obywateli do instytucji państwowych.",
@@ -20,7 +20,7 @@ export const mockOpinions: Opinion[] = [
         selectedQuote: "Problemy wynikające z konstytucyjnych ograniczeń kadencyjności",
         replies: [
           {
-            id: generateId(),
+            id: "reply-1",
             user: { name: "Katarzyna Wojciechowska", avatar: null },
             date: "2025-03-18T16:30:00Z",
             agree: "Rozumiem Twoją ostrożność wobec zmian konstytucyjnych, ale historia pokazuje, że reformy systemowe są możliwe.",
@@ -37,7 +37,7 @@ export const mockOpinions: Opinion[] = [
         ],
       },
       {
-        id: generateId(),
+        id: "comment-2",
         user: { name: "Paweł Kamiński", avatar: null },
         date: "2025-03-18T18:20:00Z",
         agree: "Twoja diagnoza jest trafna, ale proponowane rozwiązania są zbyt ogólnikowe.",
@@ -45,7 +45,7 @@ export const mockOpinions: Opinion[] = [
         selectedQuote: "a nie tylko wymianie ludzi na stanowiskach",
         replies: [
           {
-            id: generateId(),
+            id: "reply-2",
             user: { name: "Katarzyna Wojciechowska", avatar: null },
             date: "2025-03-18T19:00:00Z",
             agree: "Masz rację, że konkretne propozycje są potrzebne.",
@@ -67,13 +67,13 @@ export const mockOpinions: Opinion[] = [
     ],
   },
   {
-    id: generateId(),
+    id: "opinion-2",
     user: { name: "Tomasz Lewandowski", avatar: null },
     date: "2025-03-12T09:15:00Z",
     content: "Polityka migracyjna Polski jest fundamentalnym błędem strategicznym. Zamykanie się na imigrantów ekonomicznych jest hipokryzją. Potrzebujemy etapowej, przemyślanej polityki integracyjnej.",
     comments: [
       {
-        id: generateId(),
+        id: "comment-3",
         user: { name: "Ewa Kowalska", avatar: null },
         date: "2025-03-12T10:30:00Z",
         agree: "Twoja analiza demograficzna jest bezlitośnie prawdziwa.",
@@ -81,7 +81,7 @@ export const mockOpinions: Opinion[] = [
         selectedQuote: "Zamykanie się na imigrantów ekonomicznych jest hipokryzją",
         replies: [
           {
-            id: generateId(),
+            id: "reply-3",
             user: { name: "Tomasz Lewandowski", avatar: null },
             date: "2025-03-12T11:15:00Z",
             agree: "Zgadzam się, że automatyzacja jest ważna, ale nie jest alternatywą dla migracji.",
@@ -96,7 +96,7 @@ export const mockOpinions: Opinion[] = [
         ],
       },
       {
-        id: generateId(),
+        id: "comment-4",
         user: { name: "Anna Wiśniewska", avatar: null },
         date: "2025-03-12T12:45:00Z",
         agree: "Jednoznacznie popieram potrzebę kompleksowej polityki migracyjnej.",
@@ -114,13 +114,13 @@ export const mockOpinions: Opinion[] = [
     ],
   },
   {
-    id: generateId(),
+    id: "opinion-3",
     user: { name: "Monika Dąbrowska", avatar: null },
     date: "2025-03-08T11:20:00Z",
     content: "System ochrony zdrowia w Polsce jest na granicy katastrofy. Problem nie polega na pieniądzach, ale na fundamentalnym błędzie w organizacji systemu.",
     comments: [
       {
-        id: generateId(),
+        id: "comment-5",
         user: { name: "Jarosław Wróbel", avatar: null },
         date: "2025-03-08T12:40:00Z",
         agree: "Twoja diagnoza jest bolesnie trafna, ale proponowane rozwiązania są nierealistyczne.",
@@ -128,7 +128,7 @@ export const mockOpinions: Opinion[] = [
         selectedQuote: "kolejki do specjalistów wydłużają się systematycznie",
         replies: [
           {
-            id: generateId(),
+            id: "reply-4",
             user: { name: "Monika Dąbrowska", avatar: null },
             date: "2025-03-08T13:25:00Z",
             agree: "Masz rację co do współpłacenia w innych krajach.",
@@ -144,7 +144,7 @@ export const mockOpinions: Opinion[] = [
         ],
       },
       {
-        id: generateId(),
+        id: "comment-6",
         user: { name: "Agnieszka Adamska", avatar: null },
         date: "2025-03-08T14:50:00Z",
         agree: "Jako osoba pracująca w systemie, mogę potwierdzić, że sytuacja jest jeszcze gorsza.",

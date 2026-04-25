@@ -22,7 +22,11 @@ function ErrorFallback() {
 }
 
 function Navbar() {
-  const { user, logout } = useAuth();
+  const { user, logout, isLoaded } = useAuth();
+
+  if (!isLoaded) {
+    return null;
+  }
 
   return (
     <nav className="border-b border-gray-200 bg-white px-4 py-3 dark:border-gray-700 dark:bg-gray-800">

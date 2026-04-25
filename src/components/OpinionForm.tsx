@@ -6,9 +6,11 @@ import { useOpinions } from "../context/OpinionsContext";
 import { addOpinion as saveOpinion } from "../lib/db";
 
 export function OpinionForm() {
-  const { user } = useAuth();
+  const { user, isLoaded } = useAuth();
   const { refreshOpinions } = useOpinions();
   const [content, setContent] = useState("");
+
+  if (!isLoaded) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

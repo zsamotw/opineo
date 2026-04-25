@@ -30,7 +30,7 @@ export function CommentForm({
   selectedQuote: externalSelectedQuote,
   onClearSelectedQuote,
 }: CommentFormProps) {
-  const { user } = useAuth();
+  const { user, isLoaded } = useAuth();
   const { agree, disagree, error, hasAgree, setAgree, setDisagree, handleSubmit } =
     useCommentForm({
       initialSelectedQuote: externalSelectedQuote,
@@ -47,7 +47,7 @@ export function CommentForm({
 
   return (
     <div className="border-t border-gray-200 p-4 pt-4 dark:border-gray-700">
-      {user ? (
+      {!isLoaded ? null : user ? (
         <form onSubmit={onFormSubmit} className="flex flex-col gap-3 p-4">
           <div className="rounded-lg bg-yellow-50 p-3 text-lg dark:bg-yellow-900/20">
             <p className="mb-2 font-medium text-yellow-800 dark:text-yellow-200">

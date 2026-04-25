@@ -29,7 +29,7 @@ interface ReplyFormProps {
 }
 
 function ReplyForm({ onSubmit }: ReplyFormProps) {
-  const { user } = useAuth();
+  const { user, isLoaded } = useAuth();
   const { agree, disagree, error, hasAgree, setAgree, setDisagree, handleReplySubmit, reset } = useCommentForm({
     onSubmit: (comment) => {
       onSubmit({
@@ -49,7 +49,7 @@ function ReplyForm({ onSubmit }: ReplyFormProps) {
     handleReplySubmit(user);
   };
 
-  if (!user) return null;
+  if (!isLoaded || !user) return null;
 
   return (
     <form onSubmit={onFormSubmit} className="mt-4 flex flex-col gap-3 rounded-lg border border-gray-200 bg-gray-100 p-6 dark:border-gray-600 dark:bg-gray-800">
