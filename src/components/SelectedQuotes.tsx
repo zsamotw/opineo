@@ -15,14 +15,14 @@ export function SelectedQuotes({ quotes }: SelectedQuotesProps) {
   return (
     <details
       open={isOpen}
-      className="mt-4 cursor-pointer rounded-lg border border-yellow-200 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-900/20"
+      className="mt-4 cursor-pointer rounded-lg border border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-700"
     >
       <summary
         onClick={(e) => {
           e.preventDefault();
           setIsOpen(!isOpen);
         }}
-        className="flex list-none items-center justify-between p-4 text-lg font-medium text-yellow-800 dark:text-yellow-200"
+        className="flex list-none items-center justify-between p-4 text-lg font-medium text-gray-900 dark:text-gray-100"
       >
         <span className="flex items-center gap-2">
           <QuoteIcon size={16} />

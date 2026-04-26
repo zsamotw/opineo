@@ -112,9 +112,9 @@ const [isOpen, setIsOpen] = useState(false);
               <button
                 onClick={handleOpenForm}
                 disabled={countdown > 0}
-                className="mt-3 text-xl font-medium text-blue-600 hover:underline disabled:cursor-wait disabled:no-underline dark:text-blue-400"
+                className="mt-3 mb-4 text-xl font-medium text-blue-600 hover:underline disabled:cursor-wait disabled:no-underline dark:text-blue-400"
               >
-                Odpowiedz
+                Dodaj
               </button>
               {countdown > 0 && <CountdownIndicator countdown={countdown} />}
             </>

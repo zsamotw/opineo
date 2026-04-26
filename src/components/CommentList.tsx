@@ -167,7 +167,7 @@ function CommentItem({
           <div className="mt-2 space-y-2 sm:mt-3 sm:space-y-3">
             {comment.selectedQuote && (
               <div className="grid grid-cols-1 gap-1 sm:grid-cols-[180px_1fr] sm:gap-x-3 sm:gap-y-1">
-                <span className="text-base font-medium text-yellow-600 dark:text-yellow-400 whitespace-nowrap sm:text-lg">❝ Warte uwagi:</span>
+                <span className="text-base font-medium text-gray-800 dark:text-gray-300 whitespace-nowrap sm:text-lg">❝ Warte uwagi:</span>
                 <p className="text-base leading-relaxed text-gray-600 dark:text-gray-400 italic whitespace-pre-wrap sm:text-lg">&ldquo;{comment.selectedQuote}&rdquo;</p>
               </div>
             )}
@@ -189,7 +189,7 @@ function CommentItem({
           <button
             onClick={handleReplyClick}
             disabled={countdown > 0}
-            className="mt-3 text-xl font-medium text-blue-600 hover:underline disabled:cursor-wait disabled:no-underline dark:text-blue-400"
+            className="mt-4 text-base font-medium text-blue-600 hover:underline disabled:cursor-wait disabled:no-underline dark:text-blue-400"
           >
             {showReplyForm ? "Ukryj formularz" : "Odpowiedz"}
           </button>

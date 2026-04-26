@@ -31,6 +31,7 @@ export function Resume({ comments, opinionContent }: ResumeProps) {
     <div className="mt-4 space-y-2">
       {likes.length > 0 && <Likes likes={likes} />}
       {opposingViews.length > 0 && <OpposingViews opposingViews={opposingViews} />}
+      {selectedQuotes.length > 0 && <SelectedQuotes quotes={selectedQuotes} />}
       <AIAssistant
         opinionContent={opinionContent}
         response={response}
@@ -39,7 +40,6 @@ export function Resume({ comments, opinionContent }: ResumeProps) {
         analyzed={analyzed}
         onAnalyze={analyze}
       />
-      {selectedQuotes.length > 0 && <SelectedQuotes quotes={selectedQuotes} />}
     </div>
   );
 }

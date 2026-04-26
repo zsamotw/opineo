@@ -49,8 +49,8 @@ export function CommentForm({
     <div className="border-t border-gray-200 p-4 pt-4 dark:border-gray-700">
       {!isLoaded ? null : user ? (
         <form onSubmit={onFormSubmit} className="flex flex-col gap-3 p-4">
-          <div className="rounded-lg bg-yellow-50 p-3 text-lg dark:bg-yellow-900/20">
-            <p className="mb-2 font-medium text-yellow-800 dark:text-yellow-200">
+          <div className="rounded-lg bg-white p-3 text-lg dark:bg-gray-700">
+            <p className="mb-2 font-medium text-amber-600 dark:text-amber-400">
               {disagree.trim()
                 ? "Masz inne zdanie, super! Mimo to zaznacz fragment który warto rozważyć:"
                 : "Zaznacz fragment, który warto rozważyć:"}
