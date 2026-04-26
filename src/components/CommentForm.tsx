@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useAuth } from "../context/AuthContext";
 import { useCommentForm } from "../lib/useCommentForm";
@@ -23,17 +24,23 @@ interface CommentFormProps {
   }) => void;
   selectedQuote?: string;
   onClearSelectedQuote?: () => void;
+  opinionContent?: string;
 }
 
 export function CommentForm({
   onSubmit,
   selectedQuote: externalSelectedQuote,
   onClearSelectedQuote,
+  opinionContent,
 }: CommentFormProps) {
+  const [quoteFromCopy, setQuoteFromCopy] = useState("");
+  const [isQuoteOpen, setIsQuoteOpen] = useState(false);
   const { user, isLoaded } = useAuth();
-  const { agree, disagree, error, hasAgree, setAgree, setDisagree, handleSubmit } =
+  
+  const initialQuote = externalSelectedQuote || quoteFromCopy;
+  const { agree, disagree, error, hasAgree, setAgree, setDisagree, handleSubmit, setSelectedQuote } =
     useCommentForm({
-      initialSelectedQuote: externalSelectedQuote,
+      initialSelectedQuote: initialQuote,
       onSubmit,
     });
 
@@ -41,26 +48,57 @@ export function CommentForm({
     e.preventDefault();
     handleSubmit(user);
     onClearSelectedQuote?.();
+    setQuoteFromCopy("");
+    setIsQuoteOpen(false);
+    window.getSelection()?.removeAllRanges();
   };
 
-  const displayedQuote = externalSelectedQuote;
+  const displayedQuote = initialQuote;
+
+  const handleCopyClick = (e: React.MouseEvent<HTMLParagraphElement>) => {
+    const selection = window.getSelection();
+    const text = selection?.toString().trim();
+    
+    if (text && text.length > 0) {
+      e.preventDefault();
+      setQuoteFromCopy(text);
+      setSelectedQuote(text);
+    }
+  };
 
   return (
     <div className="border-t border-gray-200 p-4 pt-4 dark:border-gray-700">
       {!isLoaded ? null : user ? (
         <form onSubmit={onFormSubmit} className="flex flex-col gap-3 p-4">
-          <div className="rounded-lg bg-white p-3 text-lg dark:bg-gray-700">
-            <p className="mb-2 font-medium text-amber-600 dark:text-amber-400">
-              {disagree.trim()
-                ? "Masz inne zdanie, super! Mimo to zaznacz fragment który warto rozważyć:"
-                : "Zaznacz fragment, który warto rozważyć:"}
-            </p>
-            {displayedQuote && (
-              <p className="mb-2 text-lg text-green-700 dark:text-green-300 whitespace-pre-wrap">
-                &ldquo;{displayedQuote}&rdquo;
-              </p>
+          <details open={isQuoteOpen} className="rounded-lg bg-white p-3 text-lg dark:bg-gray-700">
+            <summary 
+              onClick={(e) => {
+                e.preventDefault();
+                setIsQuoteOpen(!isQuoteOpen);
+              }}
+              className="cursor-pointer list-none font-medium text-amber-600 dark:text-amber-400 flex items-center justify-between"
+            >
+              <span>
+                {disagree.trim()
+                  ? "Masz inne zdanie, super! Mimo to zaznacz fragment który warto rozważyć:"
+                  : "Zaznacz fragment, który warto rozważyć:"}
+              </span>
+              <span>{isQuoteOpen ? "▼" : "▶"}</span>
+            </summary>
+            {isQuoteOpen && opinionContent && (
+              <div 
+                onClick={handleCopyClick}
+                className="mt-3 cursor-text rounded-lg border border-gray-200 bg-gray-50 p-4 text-lg leading-relaxed text-gray-800 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 select-text selection:bg-yellow-200 selection:text-yellow-900"
+              >
+                {opinionContent}
+              </div>
             )}
-          </div>
+          </details>
+          {displayedQuote && (
+            <p className="mb-2 mt-3 text-lg text-green-700 dark:text-green-300 whitespace-pre-wrap">
+              &ldquo;{displayedQuote}&rdquo;
+            </p>
+          )}
 
           <div className="relative">
             <div className="absolute -left-3 top-2 h-4 w-1 rounded-full bg-green-500"></div>

@@ -13,6 +13,7 @@ interface CommentsAccordionProps {
   comments: Comment[];
   selectedQuote?: string;
   onClearSelectedQuote?: () => void;
+  opinionContent?: string;
   onAddComment: (comment: Omit<Comment, "replies" | "reactions">) => Promise<void>;
   onAddReply: (commentId: string, reply: Omit<CommentReply, "reactions">) => Promise<void>;
   onToggleReaction: (commentId: string, type: ReactionType) => Promise<void>;
@@ -26,6 +27,7 @@ export function CommentsAccordion({
   comments,
   selectedQuote: externalSelectedQuote,
   onClearSelectedQuote,
+  opinionContent,
   onAddComment,
   onAddReply,
   onToggleReaction,
@@ -131,6 +133,7 @@ const [isOpen, setIsOpen] = useState(false);
                 onSubmit={onAddComment}
                 selectedQuote={selectedQuote}
                 onClearSelectedQuote={clearSelectedQuote}
+                opinionContent={opinionContent}
               />
             </>
           )}
