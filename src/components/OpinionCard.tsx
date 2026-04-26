@@ -43,14 +43,14 @@ export function OpinionCard({ opinion }: OpinionCardProps) {
   };
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800 w-full">
+    <div className="rounded-lg border-b border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800 w-full">
       <OpinionCardHeader name={opinion.user.name} date={opinion.date} />
       <p 
-        className={`mb-4 text-lg leading-relaxed text-gray-800 dark:text-gray-200 select-text ${isCommentFormOpen ? "cursor-text rounded bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 selection:bg-yellow-200 selection:text-yellow-900" : "cursor-text"}`}
+        className={`mb-2 text-base leading-normal text-gray-800 dark:text-gray-200 select-text ${isCommentFormOpen ? "cursor-text rounded bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 selection:bg-yellow-200 selection:text-yellow-900" : "cursor-text"}`}
         onClick={handleContentClick}
       >{opinion.content}</p>
       <ReactionsBar reactions={opinion.reactions || []} onToggle={(type) => handleOpinionReaction(type, userId || "")} userId={userId} size="lg" />
-      <div className="mt-6 border-t border-gray-100 pt-4 dark:border-gray-700">
+      <div className="mt-3 border-t border-gray-100 pt-3 dark:border-gray-700">
         <Resume comments={comments} opinionContent={opinion.content} />
         <CommentsAccordion
           comments={comments}

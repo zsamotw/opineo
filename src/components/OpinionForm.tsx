@@ -38,7 +38,7 @@ export function OpinionForm() {
       <textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}
-        placeholder="To miejsce na Twoją opinię..."
+        placeholder="to tu...!"
         rows={2}
         className="w-full resize-y rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-400"
       />

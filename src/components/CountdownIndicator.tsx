@@ -11,7 +11,7 @@ export function CountdownIndicator({ countdown }: CountdownIndicatorProps) {
         {countdown}
       </span>
       <span className="text-base text-gray-500 dark:text-gray-400">
-        Nie spiesz się — jakość ponad szybkość
+        Pisz z pewnością siebie i intencją porozumienia 
       </span>
     </div>
   );

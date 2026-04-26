@@ -22,7 +22,7 @@ export function OpposingViews({ opposingViews }: OpposingViewsProps) {
           e.preventDefault();
           setIsOpen(!isOpen);
         }}
-        className="flex list-none items-center justify-between p-4 text-lg font-medium text-orange-800 dark:text-orange-200"
+        className="flex list-none items-center justify-between p-3 text-base font-bold text-orange-800 dark:text-orange-200"
       >
         <span className="flex items-center gap-2">
           <FlagIcon />
@@ -31,10 +31,10 @@ export function OpposingViews({ opposingViews }: OpposingViewsProps) {
         <span>{isOpen ? "▼" : "▶"}</span>
       </summary>
       {isOpen && (
-        <div className="p-4 pt-0">
+        <div className="p-3 pt-0">
           <ul className="list-disc pl-5 space-y-3">
             {opposingViews?.map((view, index) => (
-              <li key={index} className="text-lg leading-relaxed text-gray-700 dark:text-gray-300 italic">
+              <li key={index} className="text-base leading-normal text-gray-700 dark:text-gray-300 italic">
                 {view}
               </li>
             ))}

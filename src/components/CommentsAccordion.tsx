@@ -96,25 +96,25 @@ const [isOpen, setIsOpen] = useState(false);
   };
 
   return (
-    <div className="mt-4 rounded-lg border border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-800/50">
+    <div className="mt-3 rounded-lg border border-gray-200 bg-gray-50 p-3 dark:border-gray-700 dark:bg-gray-800/50">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex w-full cursor-pointer items-center justify-between p-4 text-lg font-medium text-gray-700 dark:text-gray-200"
+        className="flex w-full cursor-pointer items-center justify-between p-3 text-base font-bold text-gray-700 dark:text-gray-200"
       >
         <span className="flex items-center gap-2">
           <ChatBubbleIcon />
           Komentarze ({comments.length})
         </span>
-        <span className="text-gray-500">{isOpen ? "▼" : "▶"}</span>
+        <span>{isOpen ? "▼" : "▶"}</span>
       </button>
       {isOpen && (
-        <div className="border-t border-gray-200 p-4 pt-3 dark:border-gray-700">
+        <div className="border-t border-gray-200 p-3 pt-2 dark:border-gray-700">
           {!isCommentFormOpen ? (
             <>
               <button
                 onClick={handleOpenForm}
                 disabled={countdown > 0}
-                className="mt-3 mb-4 text-xl font-medium text-blue-600 hover:underline disabled:cursor-wait disabled:no-underline dark:text-blue-400"
+                className="mt-2 mb-3 text-base font-bold text-blue-600 hover:underline disabled:cursor-wait disabled:no-underline dark:text-blue-400"
               >
                 Dodaj
               </button>
@@ -124,7 +124,7 @@ const [isOpen, setIsOpen] = useState(false);
             <>
               <button
                 onClick={onFormClose}
-                className="mt-3 text-xl font-medium text-blue-600 hover:underline dark:text-blue-400"
+                className="mt-2 text-base font-bold text-blue-600 hover:underline dark:text-blue-400"
               >
                 Ukryj formularz
               </button>
