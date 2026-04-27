@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useAuth } from "@/src/context/AuthContext";
 import { useOpinions } from "@/src/context/OpinionsContext";
-import { OpinionCard } from "@/src/components/OpinionCard";
+import { OpinionFeedCard } from "@/src/components/opinions/OpinionFeedCard";
 import { OpinionForm } from "@/src/components/OpinionForm";
 import { ErrorBoundary } from "@/src/components/ErrorBoundary";
 
@@ -119,7 +119,7 @@ export default function Home() {
               <EmptyState />
             ) : (
               opinions.map((opinion) => (
-                <OpinionCard key={opinion.id} opinion={opinion} />
+                <OpinionFeedCard key={opinion.id} opinion={opinion} />
               ))
             )}
           </div>

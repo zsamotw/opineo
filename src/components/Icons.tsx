@@ -81,10 +81,10 @@ export function SearchIcon({ className, size = 18 }: IconProps) {
   );
 }
 
-export function FlagIcon({ className, size = 18 }: IconProps) {
+export function ContraIcon({ className, size = 18 }: IconProps) {
   return (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
+      xmlns="http://www.w3.org/2000/2000/svg"
       width={size}
       height={size}
       viewBox="0 0 24 24"
@@ -98,6 +98,26 @@ export function FlagIcon({ className, size = 18 }: IconProps) {
       <path d="M7 16l-4-4 4-4" />
       <path d="M17 8l4 4-4 4" />
       <path d="M3 12h18" />
+    </svg>
+  );
+}
+
+export function BackIcon({ className, size = 18 }: IconProps) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="m12 19-7-7 7-7" />
+      <path d="M19 12H5" />
     </svg>
   );
 }

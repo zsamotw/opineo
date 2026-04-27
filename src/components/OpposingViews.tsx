@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { FlagIcon } from "./Icons";
+import { ContraIcon } from "./Icons";
 
 interface OpposingViewsProps {
   opposingViews: string[];
@@ -25,7 +25,7 @@ export function OpposingViews({ opposingViews }: OpposingViewsProps) {
         className="flex list-none items-center justify-between p-3 text-base font-bold text-orange-800 dark:text-orange-200"
       >
         <span className="flex items-center gap-2">
-          <FlagIcon />
+          <ContraIcon />
           Kontrapunkt ({opposingViews?.length ?? 0})
         </span>
         <span>{isOpen ? "▼" : "▶"}</span>
