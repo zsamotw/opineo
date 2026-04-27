@@ -41,7 +41,7 @@ export function OpinionDetail({ opinion }: OpinionDetailProps) {
   };
 
   return (
-    <div className="max-w-3xl mx-auto">
+    <div className="w-full max-w-7xl mx-auto px-4 lg:px-8">
       <Link
         href="/"
         className="inline-flex items-center gap-2 mb-4 text-blue-600 hover:underline dark:text-blue-400"
@@ -50,7 +50,7 @@ export function OpinionDetail({ opinion }: OpinionDetailProps) {
         <span>Powrót do feedu</span>
       </Link>
       
-      <div className="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800">
+      <div className="rounded-lg border border-gray-200 bg-white p-6 lg:p-8 dark:border-gray-700 dark:bg-gray-800">
         <div className="flex items-center gap-2 mb-2">
           <span className="font-semibold text-gray-900 dark:text-gray-100">
             {opinion.user.name}
@@ -60,7 +60,7 @@ export function OpinionDetail({ opinion }: OpinionDetailProps) {
           </span>
         </div>
         <p 
-          className={`mb-3 text-base leading-normal text-gray-800 dark:text-gray-200 select-text ${isCommentFormOpen ? "cursor-text rounded bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 selection:bg-yellow-200 selection:text-yellow-900" : "cursor-text"}`}
+          className={`mb-3 text-lg leading-relaxed text-gray-800 dark:text-gray-200 select-text ${isCommentFormOpen ? "cursor-text rounded bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 selection:bg-yellow-200 selection:text-yellow-900" : "cursor-text"}`}
           onClick={handleContentClick}
         >
           {opinion.content}
@@ -73,7 +73,7 @@ export function OpinionDetail({ opinion }: OpinionDetailProps) {
         />
       </div>
 
-      <div className="mt-4 border-t border-gray-100 pt-4 dark:border-gray-700">
+      <div className="mt-6 rounded-lg border border-gray-200 bg-white p-6 lg:p-8 dark:border-gray-700 dark:bg-gray-800">
         <Resume comments={comments} opinionContent={opinion.content} />
         <CommentsAccordion
           comments={comments}

@@ -36,7 +36,10 @@ export function ReactionsBar({ reactions, onToggle, userId = "", size = "md" }: 
         return (
           <button
             key={type}
-            onClick={() => onToggle(type)}
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggle(type);
+            }}
             aria-label={config.label}
             title={config.label}
             className={`flex items-center ${sizeConfig.padding} rounded-full transition-colors cursor-pointer text-lg ${
