@@ -36,7 +36,6 @@ export function CommentsAccordion({
   isCommentFormOpen: externalIsCommentFormOpen,
   onCommentFormOpenChange,
 }: CommentsAccordionProps) {
-const [isOpen, setIsOpen] = useState(true);
   const [internalSelectedQuote, setInternalSelectedQuote] = useState("");
   const [pendingOpen, setPendingOpen] = useState(false);
   const [localCountdown, setLocalCountdown] = useState(0);
@@ -97,59 +96,51 @@ const [isOpen, setIsOpen] = useState(true);
 
   return (
     <div className="mt-3 rounded-lg border border-gray-200 bg-gray-50 p-3 dark:border-gray-700 dark:bg-gray-800/50">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex w-full cursor-pointer items-center justify-between p-3 text-base font-bold text-gray-700 dark:text-gray-200"
-      >
-        <span className="flex items-center gap-2">
-          <ChatBubbleIcon />
-          Komentarze ({comments.length})
-        </span>
-        <span>{isOpen ? "▼" : "▶"}</span>
-      </button>
-      {isOpen && (
-        <div className="border-t border-gray-200 p-3 pt-2 dark:border-gray-700">
-          {!isCommentFormOpen ? (
-            <>
-              <button
-                onClick={handleOpenForm}
-                disabled={countdown > 0}
-                className="mt-2 mb-3 text-base font-bold text-blue-600 hover:underline disabled:cursor-wait disabled:no-underline dark:text-blue-400"
-              >
-                Dodaj
-              </button>
-              {countdown > 0 && <CountdownIndicator countdown={countdown} />}
-            </>
-          ) : (
-            <>
-              <button
-                onClick={onFormClose}
-                className="mt-2 text-base font-bold text-blue-600 hover:underline dark:text-blue-400"
-              >
-                Ukryj formularz
-              </button>
-              <CommentForm
-                key={formResetKey}
-                onSubmit={onAddComment}
-                selectedQuote={selectedQuote}
-                onClearSelectedQuote={clearSelectedQuote}
-                opinionContent={opinionContent}
-              />
-            </>
-          )}
-          {comments.length > 0 && (
-            <div className="mt-4">
-              <CommentList
-                comments={comments}
-                onAddReply={onAddReply}
-                onToggleReaction={onToggleReaction}
-                onToggleReplyReaction={onToggleReplyReaction}
-                userId={userId}
-              />
-            </div>
-          )}
-        </div>
-      )}
+      <div className="flex items-center gap-2 p-3 text-base font-bold text-gray-700 dark:text-gray-200">
+        <ChatBubbleIcon />
+        <span>Komentarze ({comments.length})</span>
+      </div>
+      <div className="border-t border-gray-200 p-3 pt-2 dark:border-gray-700">
+        {!isCommentFormOpen ? (
+          <>
+            <button
+              onClick={handleOpenForm}
+              disabled={countdown > 0}
+              className="mt-2 mb-3 text-base font-bold text-blue-600 hover:underline disabled:cursor-wait disabled:no-underline dark:text-blue-400"
+            >
+              Dodaj
+            </button>
+            {countdown > 0 && <CountdownIndicator countdown={countdown} />}
+          </>
+        ) : (
+          <>
+            <button
+              onClick={onFormClose}
+              className="mt-2 text-base font-bold text-blue-600 hover:underline dark:text-blue-400"
+            >
+              Ukryj formularz
+            </button>
+            <CommentForm
+              key={formResetKey}
+              onSubmit={onAddComment}
+              selectedQuote={selectedQuote}
+              onClearSelectedQuote={clearSelectedQuote}
+              opinionContent={opinionContent}
+            />
+          </>
+        )}
+        {comments.length > 0 && (
+          <div className="mt-4">
+            <CommentList
+              comments={comments}
+              onAddReply={onAddReply}
+              onToggleReaction={onToggleReaction}
+              onToggleReplyReaction={onToggleReplyReaction}
+              userId={userId}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -6,6 +6,7 @@ import { useOpinions } from "@/src/context/OpinionsContext";
 import { OpinionFeedCard } from "@/src/components/opinions/OpinionFeedCard";
 import { OpinionForm } from "@/src/components/OpinionForm";
 import { ErrorBoundary } from "@/src/components/ErrorBoundary";
+import { ThemeToggle } from "@/src/components/ThemeToggle";
 
 function ErrorFallback() {
   return (
@@ -29,12 +30,13 @@ function Navbar() {
   }
 
   return (
-    <nav className="border-b border-gray-200 bg-white px-4 py-3 dark:border-gray-700 dark:bg-gray-800">
-      <div className="mx-auto flex max-w-4xl itemis-center justify-between">
+    <nav className="border-b border-gray-200 bg-white px-4 py-3 dark:border-gray-700 dark:bg-gray-800" suppressHydrationWarning>
+      <div className="mx-auto flex max-w-4xl items-center justify-between">
         <Link href="/" className="text-xl font-bold text-gray-900 dark:text-gray-100">
           Opineo
         </Link>
         <div className="flex items-center gap-4">
+          <ThemeToggle />
           {user ? (
             <>
               <span className="text-sm text-gray-700 dark:text-gray-300">
