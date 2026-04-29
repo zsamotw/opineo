@@ -61,7 +61,7 @@ function ReplyForm({ onSubmit }: ReplyFormProps) {
           onChange={(e) => setAgree(e.target.value)}
           placeholder={disagree.trim() ? "Napisz co cenisz w tej opinii" : "Zgadzam się — świetny punkt!"}
           rows={2}
-          className="w-full rounded-lg border border-green-300 bg-green-50 px-3 py-2 text-base focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500 dark:border-green-700 dark:bg-green-900/20 dark:text-gray-100 dark:placeholder-gray-500"
+          className="w-full rounded-lg border border-green-300 bg-green-50 px-3 py-2 text-base text-gray-900 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500 dark:border-green-700 dark:bg-green-900/20 dark:text-gray-100 dark:placeholder-gray-500"
         />
       </div>
 
@@ -72,7 +72,7 @@ function ReplyForm({ onSubmit }: ReplyFormProps) {
           onChange={(e) => setDisagree(e.target.value)}
           placeholder="Cenę tę perspektywę; pozwól, że przedstawię odmienne spojrzenie."
           rows={2}
-          className="w-full rounded-lg border border-orange-300 bg-orange-50 px-3 py-2 text-base focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500 dark:border-orange-700 dark:bg-orange-900/20 dark:text-gray-100 dark:placeholder-gray-500"
+          className="w-full rounded-lg border border-orange-300 bg-orange-50 px-3 py-2 text-base text-gray-900 focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500 dark:border-orange-700 dark:bg-orange-900/20 dark:text-gray-100 dark:placeholder-gray-500"
         />
       </div>
       {error && (

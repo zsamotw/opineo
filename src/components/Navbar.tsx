@@ -3,9 +3,16 @@
 import Link from "next/link";
 import { useAuth } from "@/src/context/AuthContext";
 import { ThemeToggle } from "./ThemeToggle";
+import { useState, useEffect } from "react";
 
 export function Navbar() {
   const { user, logout } = useAuth();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
 
   return (
     <nav className="border-b border-gray-200 bg-white px-4 py-3 dark:border-gray-700 dark:bg-gray-800" suppressHydrationWarning>
@@ -15,34 +22,36 @@ export function Navbar() {
         </Link>
         <div className="flex items-center gap-4">
           <ThemeToggle />
-          {user ? (
-            <>
-              <span className="text-sm text-gray-700 dark:text-gray-300">
-                Zalogowany jako: <strong>{user.firstName} {user.lastName}</strong>
-              </span>
-              <button
-                onClick={logout}
-                className="rounded-lg border border-gray-300 px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
-              >
-                Wyloguj
-              </button>
-            </>
-          ) : (
-            <>
-              <Link
-                href="/login"
-                className="rounded-lg px-3 py-1.5 text-sm font-medium text-blue-600 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900/30"
-              >
-                Zaloguj
-              </Link>
-              <Link
-                href="/register"
-                className="rounded-lg bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700"
-              >
-                Rejestracja
-              </Link>
-            </>
-          )}
+          {mounted ? (
+            user ? (
+              <>
+                <span className="text-sm text-gray-700 dark:text-gray-300">
+                  Zalogowany jako: <strong>{user.firstName} {user.lastName}</strong>
+                </span>
+                <button
+                  onClick={logout}
+                  className="rounded-lg border border-gray-300 px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
+                >
+                  Wyloguj
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="rounded-lg px-3 py-1.5 text-sm font-medium text-blue-600 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900/30"
+                >
+                  Zaloguj
+                </Link>
+                <Link
+                  href="/register"
+                  className="rounded-lg bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700"
+                >
+                  Rejestracja
+                </Link>
+              </>
+            )
+          ) : null}
         </div>
       </div>
     </nav>

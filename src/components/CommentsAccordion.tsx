@@ -104,7 +104,10 @@ export function CommentsAccordion({
         {!isCommentFormOpen ? (
           <>
             <button
-              onClick={handleOpenForm}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleOpenForm();
+              }}
               disabled={countdown > 0}
               className="mt-2 mb-3 text-base font-bold text-blue-600 hover:underline disabled:cursor-wait disabled:no-underline dark:text-blue-400"
             >
@@ -115,7 +118,10 @@ export function CommentsAccordion({
         ) : (
           <>
             <button
-              onClick={onFormClose}
+              onClick={(e) => {
+                e.stopPropagation();
+                onFormClose();
+              }}
               className="mt-2 text-base font-bold text-blue-600 hover:underline dark:text-blue-400"
             >
               Ukryj formularz

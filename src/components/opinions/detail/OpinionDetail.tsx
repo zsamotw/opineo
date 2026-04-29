@@ -32,7 +32,7 @@ export function OpinionDetail({ opinion }: OpinionDetailProps) {
     <div className="w-full max-w-7xl mx-auto px-4 lg:px-8">
       <Link
         href="/"
-        className="inline-flex items-center gap-2 mb-4 text-blue-600 hover:underline dark:text-blue-400"
+        className="inline-flex items-center gap-2 mt-4 mb-4 text-blue-600 hover:underline dark:text-blue-400"
       >
         <BackIcon size={18} />
         <span>Powrót do feedu</span>

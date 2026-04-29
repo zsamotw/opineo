@@ -34,12 +34,14 @@ export function OpinionFeedCard({ opinion }: OpinionFeedCardProps) {
           {opinion.content}
         </p>
       </div>
-      <ReactionsBar
-        reactions={opinion.reactions || []}
-        onToggle={(type) => handleOpinionReaction(type)}
-        userId={userId}
-        size="lg"
-      />
+      <div className="mt-2">
+        <ReactionsBar
+          reactions={opinion.reactions || []}
+          onToggle={(type) => handleOpinionReaction(type)}
+          userId={userId}
+          size="lg"
+        />
+      </div>
       <OpinionSummaryStats summary={summary} />
     </div>
   );

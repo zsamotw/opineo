@@ -38,7 +38,7 @@ export function OpinionForm() {
         onChange={(e) => setContent(e.target.value)}
         placeholder="to tu...!"
         rows={2}
-        className="w-full resize-y rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-400"
+        className="w-full resize-y rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-400"
       />
       <button
         type="submit"
