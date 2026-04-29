@@ -24,7 +24,6 @@ export function OpinionDetail({ opinion }: OpinionDetailProps) {
     addReply,
     toggleReaction,
     toggleReplyReaction,
-    handleContentClick,
     handleOpinionReaction,
   } = useOpinionCard({ opinion });
 
@@ -38,7 +37,7 @@ export function OpinionDetail({ opinion }: OpinionDetailProps) {
         <span>Powrót do feedu</span>
       </Link>
       
-      <div className="rounded-lg border border-gray-200 bg-white p-6 lg:p-8 dark:border-gray-700 dark:bg-gray-800">
+      <div className="rounded-lg border border-gray-200 bg-white p-6 lg:p-8 dark:border-gray-700 dark:bg-gray-900">
         <div className="flex items-center gap-2 mb-2">
           <span className="font-semibold text-gray-900 dark:text-gray-100">
             {opinion.user.name}
@@ -48,8 +47,7 @@ export function OpinionDetail({ opinion }: OpinionDetailProps) {
           </span>
         </div>
         <p 
-          className={`mb-3 text-lg leading-relaxed text-gray-800 dark:text-gray-200 select-text ${isCommentFormOpen ? "cursor-text rounded bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 selection:bg-yellow-200 selection:text-yellow-900" : "cursor-text"}`}
-          onClick={handleContentClick}
+          className={`mb-3 text-lg leading-relaxed text-gray-800 dark:text-gray-200 select-text "cursor-text"}`}
         >
           {opinion.content}
         </p>
@@ -61,7 +59,7 @@ export function OpinionDetail({ opinion }: OpinionDetailProps) {
         />
       </div>
 
-      <div className="mt-6 rounded-lg border border-gray-200 bg-white p-6 lg:p-8 dark:border-gray-700 dark:bg-gray-800">
+      <div className="mt-6 rounded-lg border border-gray-200 bg-white p-6 lg:p-8 dark:border-gray-700 dark:bg-gray-900">
         <Resume comments={comments} opinionContent={opinion.content} />
         <CommentsAccordion
           comments={comments}

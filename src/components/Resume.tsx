@@ -32,8 +32,8 @@ export function Resume({ comments, opinionContent }: ResumeProps) {
   };
 
   return (
-    <Tabs defaultValue="docenione" className="mt-4 w-full" onValueChange={handleTabChange}>
-      <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 p-1 gap-1 min-h-12">
+      <Tabs defaultValue="docenione" className="mt-4 w-full" onValueChange={handleTabChange}>
+        <TabsList className="flex w-full p-1 gap-1 min-h-12 overflow-x-auto">
         {likes.length > 0 && (
           <TabsTrigger
             value="docenione"
