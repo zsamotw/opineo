@@ -9,6 +9,7 @@ import { FormattedDate } from "@/src/components/FormattedDate";
 import { useCountdownForm } from "@/src/lib/useCountdownForm";
 import { CountdownIndicator } from "@/src/components/CountdownIndicator";
 import { useCommentForm } from "@/src/lib/useCommentForm";
+import { AuthPrompt } from "./AuthPrompt";
 
 interface CommentListProps {
   comments: Comment[];
@@ -50,7 +51,7 @@ function ReplyForm({ onSubmit }: ReplyFormProps) {
     handleReplySubmit(user);
   };
 
-  if (!user) return null;
+  if (!user) return <AuthPrompt message="Zaloguj się lub zarejestruj, aby odpowiedzieć" />;
 
   return (
     <form onSubmit={onFormSubmit} className="mt-4 flex flex-col gap-3 rounded-lg border border-gray-200 bg-gray-100 p-3 dark:border-gray-600 dark:bg-gray-800">

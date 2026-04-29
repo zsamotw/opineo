@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useAuth } from "@/src/context/AuthContext";
 import { useCommentForm } from "@/src/lib/useCommentForm";
+import { AuthPrompt } from "./AuthPrompt";
 
 interface CommentFormProps {
   onSubmit: (comment: {
@@ -43,7 +44,7 @@ export function CommentForm({
       onSubmit,
     });
 
-  if (!user) return null;
+  if (!user) return <AuthPrompt message="Zaloguj się lub zarejestruj, aby dodać komentarz" />;
 
   const onFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
