@@ -4,9 +4,7 @@ import { useRouter } from "next/navigation";
 import { getOpinionSummary, Opinion } from "@/src/data/opinions";
 import { ReactionsBar } from "@/src/components/ReactionsBar";
 import { OpinionSummaryStats } from "@/src/components/opinions/summary/OpinionSummaryStats";
-import { useOpinions } from "@/src/context/OpinionsContext";
-import { useUserId } from "@/src/lib/useUserId";
-import { ReactionType } from "@/src/types/reaction";
+import { useOpinionCard } from "@/src/hooks/useOpinionCard";
 
 interface OpinionFeedCardProps {
   opinion: Opinion;
@@ -14,14 +12,8 @@ interface OpinionFeedCardProps {
 
 export function OpinionFeedCard({ opinion }: OpinionFeedCardProps) {
   const summary = getOpinionSummary(opinion);
-  const userId = useUserId();
   const router = useRouter();
-  const { toggleOpinionReaction } = useOpinions();
-
-  const handleReaction = async (type: ReactionType) => {
-    if (!userId) return;
-    await toggleOpinionReaction(opinion.id, [type], userId);
-  };
+  const { userId, handleOpinionReaction } = useOpinionCard({ opinion });
 
   const handleCardClick = () => {
     router.push(`/opinions/${opinion.id}`);
@@ -44,7 +36,7 @@ export function OpinionFeedCard({ opinion }: OpinionFeedCardProps) {
       </div>
       <ReactionsBar
         reactions={opinion.reactions || []}
-        onToggle={handleReaction}
+        onToggle={(type) => handleOpinionReaction(type)}
         userId={userId}
         size="lg"
       />

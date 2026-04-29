@@ -24,7 +24,7 @@ export interface Comment {
   reactions: Reaction[];
 }
 
-import { ReactionType } from "../types/reaction";
+import { ReactionType } from "@/src/types/reaction";
 
 export interface Reaction {
   type: ReactionType;

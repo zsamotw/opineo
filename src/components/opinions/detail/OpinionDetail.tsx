@@ -1,44 +1,32 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { Opinion } from "@/src/data/opinions";
-import { ReactionType } from "@/src/types/reaction";
 import { BackIcon } from "@/src/components/Icons";
 import { ReactionsBar } from "@/src/components/ReactionsBar";
-import { useOpinions } from "@/src/context/OpinionsContext";
-import { useUserId } from "@/src/lib/useUserId";
-import { useComments } from "@/src/lib/useComments";
 import { Resume } from "@/src/components/Resume";
-import { CommentsAccordion } from "./CommentsAccordion";
+import { CommentsAccordion } from "@/src/components/CommentsAccordion";
+import { useOpinionCard } from "@/src/hooks/useOpinionCard";
 
 interface OpinionDetailProps {
   opinion: Opinion;
 }
 
 export function OpinionDetail({ opinion }: OpinionDetailProps) {
-  const [selectedQuote, setSelectedQuote] = useState("");
-  const userId = useUserId();
-  const { toggleOpinionReaction } = useOpinions();
-  const { comments, addComment, addReply, toggleReaction, toggleReplyReaction } = useComments({
-    opinionId: opinion.id,
-  });
-  const [isCommentFormOpen, setIsCommentFormOpen] = useState(false);
-  
-  const handleContentClick = (e: React.MouseEvent<HTMLParagraphElement>) => {
-    if (!isCommentFormOpen) return null;
-    const selection = window.getSelection();
-    const text = selection?.toString().trim();
-    if (text && text.length > 0) {
-      e.preventDefault();
-      setSelectedQuote(text);
-    }
-  };
-
-  const handleReaction = async (type: ReactionType) => {
-    if (!userId) return;
-    await toggleOpinionReaction(opinion.id, [type], userId);
-  };
+  const {
+    userId,
+    selectedQuote,
+    setSelectedQuote,
+    isCommentFormOpen,
+    setIsCommentFormOpen,
+    comments,
+    addComment,
+    addReply,
+    toggleReaction,
+    toggleReplyReaction,
+    handleContentClick,
+    handleOpinionReaction,
+  } = useOpinionCard({ opinion });
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 lg:px-8">
@@ -67,7 +55,7 @@ export function OpinionDetail({ opinion }: OpinionDetailProps) {
         </p>
         <ReactionsBar
           reactions={opinion.reactions || []}
-          onToggle={handleReaction}
+          onToggle={(type) => handleOpinionReaction(type)}
           userId={userId}
           size="lg"
         />

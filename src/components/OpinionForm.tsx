@@ -1,16 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { useAuth } from "../context/AuthContext";
-import { useOpinions } from "../context/OpinionsContext";
-import { addOpinion as saveOpinion } from "../lib/db";
+import { useAuth } from "@/src/context/AuthContext";
+import { useOpinions } from "@/src/context/OpinionsContext";
+import { addOpinion as saveOpinion } from "@/src/lib/db";
 
 export function OpinionForm() {
-  const { user, isLoaded } = useAuth();
+  const { user } = useAuth();
   const { refreshOpinions } = useOpinions();
   const [content, setContent] = useState("");
-
-  if (!isLoaded) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

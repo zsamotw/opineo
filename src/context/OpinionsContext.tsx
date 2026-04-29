@@ -1,21 +1,20 @@
 "use client";
 
 import { createContext, useContext, useState, useCallback, ReactNode, useEffect } from "react";
-import { Opinion, Comment, CommentReply } from "../data/opinions";
-import { ReactionType } from "../types/reaction";
+import { Opinion, Comment, CommentReply, Reaction } from "@/src/data/opinions";
+import { ReactionType } from "@/src/types/reaction";
 import { 
   getOpinions, 
   updateOpinionComments, 
   updateOpinionReactions,
   hasStoredOpinions,
   initializeMockData
-} from "../lib/db";
-import { mockOpinions } from "../data/mockData";
-import { useUserId } from "../lib/useUserId";
+} from "@/src/lib/db";
+import { mockOpinions } from "@/src/data/mockData";
+import { useUserId } from "@/src/lib/useUserId";
 
 interface OpinionsContextType {
   opinions: Opinion[];
-  loading: boolean;
   isLoaded: boolean;
   error: string | null;
   
@@ -73,7 +72,6 @@ function mergeReplyReaction(comments: Comment[], commentId: string, replyId: str
 
 export function OpinionsProvider({ children }: OpinionsProviderProps) {
   const [opinions, setOpinions] = useState<Opinion[]>([]);
-  const [loading, setLoading] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const userId = useUserId();
@@ -94,7 +92,6 @@ export function OpinionsProvider({ children }: OpinionsProviderProps) {
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load opinions");
     } finally {
-      setLoading(false);
       setIsLoaded(true);
     }
   }, []);
@@ -110,106 +107,124 @@ export function OpinionsProvider({ children }: OpinionsProviderProps) {
 
   const addComment = useCallback(async (opinionId: string, comment: Omit<Comment, "replies" | "reactions">) => {
     const newComment: Comment = { ...comment, replies: [], reactions: [] };
+    let updatedComments: Comment[] = [];
     
-    setOpinions((prev) =>
-      prev.map((opinion) => {
-        if (opinion.id === opinionId) {
-          return {
-            ...opinion,
-            comments: [...opinion.comments, newComment],
-          };
+    setOpinions((prev) => {
+      const opinion = prev.find((op) => op.id === opinionId);
+      if (!opinion) return prev;
+      
+      updatedComments = [...opinion.comments, newComment];
+      return prev.map((op) => {
+        if (op.id === opinionId) {
+          return { ...op, comments: updatedComments };
         }
-        return opinion;
-      })
-    );
+        return op;
+      });
+    });
 
-    const opinion = opinions.find((opinion) => opinion.id === opinionId);
-    if (opinion) {
-      await updateOpinionComments(opinionId, [...opinion.comments, newComment]);
+    if (updatedComments.length > 0) {
+      try {
+        await updateOpinionComments(opinionId, updatedComments);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Failed to add comment");
+      }
     }
-  }, [opinions]);
+  }, []);
 
   const addReply = useCallback(async (opinionId: string, commentId: string, reply: Omit<CommentReply, "reactions">) => {
     const newReply: CommentReply = { ...reply, reactions: [] };
+    let updatedComments: Comment[] = [];
     
-    setOpinions((prev) =>
-      prev.map((opinion) => {
-        if (opinion.id === opinionId) {
-          return {
-            ...opinion,
-            comments: opinion.comments.map((comment) => {
-              if (comment.id === commentId) {
-                return {
-                  ...comment,
-                  replies: [...(comment.replies || []), newReply],
-                };
-              }
-              return comment;
-            }),
-          };
-        }
-        return opinion;
-      })
-    );
-
-    const opinion = opinions.find((opinion) => opinion.id === opinionId);
-    if (opinion) {
-      const updatedComments = opinion.comments.map((comment) => {
+    setOpinions((prev) => {
+      const opinion = prev.find((op) => op.id === opinionId);
+      if (!opinion) return prev;
+      
+      updatedComments = opinion.comments.map((comment) => {
         if (comment.id === commentId) {
           return { ...comment, replies: [...(comment.replies || []), newReply] };
         }
         return comment;
       });
-      await updateOpinionComments(opinionId, updatedComments);
+      
+      return prev.map((op) => {
+        if (op.id === opinionId) {
+          return { ...op, comments: updatedComments };
+        }
+        return op;
+      });
+    });
+
+    if (updatedComments.length > 0) {
+      try {
+        await updateOpinionComments(opinionId, updatedComments);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Failed to add reply");
+      }
     }
-  }, [opinions]);
+  }, []);
 
   const toggleCommentReaction = useCallback(async (opinionId: string, commentId: string, type: ReactionType) => {
     if (!userId) return;
     
-    setOpinions((prev) =>
-      prev.map((opinion) => {
-        if (opinion.id === opinionId) {
-          const updatedComments = mergeCommentReaction(opinion.comments, commentId, type, userId);
-          return { ...opinion, comments: updatedComments };
+    let updatedComments: Comment[] = [];
+    
+    setOpinions((prev) => {
+      const opinion = prev.find((op) => op.id === opinionId);
+      if (!opinion) return prev;
+      
+      updatedComments = mergeCommentReaction(opinion.comments, commentId, type, userId);
+      return prev.map((op) => {
+        if (op.id === opinionId) {
+          return { ...op, comments: updatedComments };
         }
-        return opinion;
-      })
-    );
+        return op;
+      });
+    });
 
-    const opinion = opinions.find((opinion) => opinion.id === opinionId);
-    if (opinion) {
-      const updatedComments = mergeCommentReaction(opinion.comments, commentId, type, userId);
-      await updateOpinionComments(opinionId, updatedComments);
+    if (updatedComments.length > 0) {
+      try {
+        await updateOpinionComments(opinionId, updatedComments);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Failed to toggle comment reaction");
+      }
     }
-  }, [opinions, userId]);
+  }, [userId]);
 
   const toggleReplyReaction = useCallback(async (opinionId: string, commentId: string, replyId: string, type: ReactionType) => {
     if (!userId) return;
     
-    setOpinions((prev) =>
-      prev.map((opinion) => {
-        if (opinion.id === opinionId) {
-          const updatedComments = mergeReplyReaction(opinion.comments, commentId, replyId, type, userId);
-          return { ...opinion, comments: updatedComments };
+    let updatedComments: Comment[] = [];
+    
+    setOpinions((prev) => {
+      const opinion = prev.find((op) => op.id === opinionId);
+      if (!opinion) return prev;
+      
+      updatedComments = mergeReplyReaction(opinion.comments, commentId, replyId, type, userId);
+      return prev.map((op) => {
+        if (op.id === opinionId) {
+          return { ...op, comments: updatedComments };
         }
-        return opinion;
-      })
-    );
+        return op;
+      });
+    });
 
-    const opinion = opinions.find((opinion) => opinion.id === opinionId);
-    if (opinion) {
-      const updatedComments = mergeReplyReaction(opinion.comments, commentId, replyId, type, userId);
-      await updateOpinionComments(opinionId, updatedComments);
+    if (updatedComments.length > 0) {
+      try {
+        await updateOpinionComments(opinionId, updatedComments);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Failed to toggle reply reaction");
+      }
     }
-  }, [opinions, userId]);
+  }, [userId]);
 
   const toggleOpinionReaction = useCallback(async (opinionId: string, types: ReactionType[], userId: string) => {
-    setOpinions((prev) =>
-      prev.map((opinion) => {
+    let newReactions: Reaction[] = [];
+    
+    setOpinions((prev) => {
+      return prev.map((opinion) => {
         if (opinion.id === opinionId) {
           const reactions = opinion.reactions || [];
-          const newReactions = [...reactions];
+          newReactions = [...reactions];
           types.forEach((type) => {
             const existingIndex = newReactions.findIndex((reaction) => reaction.type === type && reaction.userId === userId);
             if (existingIndex >= 0) {
@@ -221,27 +236,20 @@ export function OpinionsProvider({ children }: OpinionsProviderProps) {
           return { ...opinion, reactions: newReactions };
         }
         return opinion;
-      })
-    );
-
-    const opinion = opinions.find((opinion) => opinion.id === opinionId);
-    if (opinion) {
-      const reactions = opinion.reactions || [];
-      const newReactions = [...reactions];
-      types.forEach((type) => {
-        const existingIndex = newReactions.findIndex((reaction) => reaction.type === type && reaction.userId === userId);
-        if (existingIndex >= 0) {
-          newReactions.splice(existingIndex, 1);
-        } else {
-          newReactions.push({ type, userId });
-        }
       });
-      await updateOpinionReactions(opinionId, newReactions);
+    });
+
+    if (newReactions.length > 0 || newReactions.length === 0) {
+      try {
+        await updateOpinionReactions(opinionId, newReactions);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Failed to toggle opinion reaction");
+      }
     }
-  }, [opinions]);
+  }, []);
 
   const refreshOpinions = useCallback(async () => {
-    setLoading(true);
+    setIsLoaded(false);
     await loadOpinions();
   }, [loadOpinions]);
 
@@ -249,7 +257,6 @@ export function OpinionsProvider({ children }: OpinionsProviderProps) {
     <OpinionsContext.Provider
       value={{
         opinions,
-        loading,
         isLoaded,
         error,
         getOpinionComments,

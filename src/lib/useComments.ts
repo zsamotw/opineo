@@ -1,10 +1,10 @@
 "use client";
 
 import { useCallback } from "react";
-import { Comment, CommentReply } from "../data/opinions";
-import { ReactionType } from "../types/reaction";
-import { useOpinions } from "../context/OpinionsContext";
-import { useUserId } from "../lib/useUserId";
+import { Comment, CommentReply } from "@/src/data/opinions";
+import { ReactionType } from "@/src/types/reaction";
+import { useOpinions } from "@/src/context/OpinionsContext";
+import { useUserId } from "@/src/lib/useUserId";
 
 interface UseCommentsOptions {
   opinionId: string;

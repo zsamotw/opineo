@@ -1,7 +1,7 @@
 "use client";
 
-import { Avatar } from "./Avatar";
-import { FormattedDate } from "./FormattedDate";
+import { Avatar } from "@/src/components/Avatar";
+import { FormattedDate } from "@/src/components/FormattedDate";
 
 interface OpinionCardHeaderProps {
   name: string;

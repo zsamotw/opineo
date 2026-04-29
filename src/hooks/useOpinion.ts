@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { useOpinions } from "../context/OpinionsContext";
+import { useOpinions } from "@/src/context/OpinionsContext";
 
 export function useOpinion(opinionId: string) {
   const { opinions } = useOpinions();

@@ -34,19 +34,9 @@ function EmptyState() {
 }
 
 export default function Home() {
-  const { opinions, loading, isLoaded } = useOpinions();
+  const { opinions, isLoaded } = useOpinions();
 
   if (!isLoaded) {
-    return (
-      <div className="flex min-h-screen flex-col bg-zinc-50 dark:bg-black">
-        <div className="flex flex-1 items-center justify-center">
-          <p className="text-gray-500">Ładowanie...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (loading) {
     return (
       <div className="flex min-h-screen flex-col bg-zinc-50 dark:bg-black">
         <div className="flex flex-1 items-center justify-center">

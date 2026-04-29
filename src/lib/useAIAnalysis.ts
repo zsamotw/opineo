@@ -17,8 +17,7 @@ export function useAIAnalysis(): UseAIAnalysisResult {
   const [analyzed, setAnalyzed] = useState(false);
 
   const analyze = useCallback(async (content: string) => {
-    if (!content.trim() || analyzed) return;
-    setAnalyzed(true);
+    if (!content.trim()) return;
     setLoading(true);
     setError(undefined);
     try {
@@ -30,6 +29,7 @@ export function useAIAnalysis(): UseAIAnalysisResult {
       const data = await res.json();
       if (data.analysis) {
         setResponse(data.analysis);
+        setAnalyzed(true);
       } else {
         setError("Brak analizy.");
       }
@@ -38,7 +38,7 @@ export function useAIAnalysis(): UseAIAnalysisResult {
     } finally {
       setLoading(false);
     }
-  }, [analyzed]);
+  }, []);
 
   return { response, loading, error, analyzed, analyze };
 }

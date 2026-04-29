@@ -1,9 +1,9 @@
 "use client";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Comment } from "../data/opinions";
-import { useAIAnalysis } from "../lib/useAIAnalysis";
-import { ContraIcon, HeartIcon, QuoteIcon, SearchIcon } from "./Icons";
+import { Comment } from "@/src/data/opinions";
+import { useAIAnalysis } from "@/src/lib/useAIAnalysis";
+import { ContraIcon, HeartIcon, QuoteIcon, SearchIcon } from "@/src/components/Icons";
 
 interface ResumeProps {
   comments: Comment[];

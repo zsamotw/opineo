@@ -3,7 +3,6 @@
 import { use } from "react";
 import { notFound } from "next/navigation";
 import { useOpinions } from "@/src/context/OpinionsContext";
-import { useAuth } from "@/src/context/AuthContext";
 import { OpinionDetail } from "@/src/components/opinions/detail/OpinionDetail";
 
 export default function OpinionDetailPage({
@@ -13,9 +12,8 @@ export default function OpinionDetailPage({
 }) {
   const { id } = use(params);
   const { opinions, isLoaded: opinionsLoaded } = useOpinions();
-  const { isLoaded: authLoaded } = useAuth();
 
-  if (!opinionsLoaded || !authLoaded) {
+  if (!opinionsLoaded) {
     return (
       <div className="flex min-h-screen flex-col bg-zinc-50 dark:bg-black">
         <div className="flex flex-1 items-center justify-center">

@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { useAuth } from "../context/AuthContext";
-import { Comment, CommentReply } from "../data/opinions";
-import { ReactionType } from "../types/reaction";
-import { ReactionsBar } from "./ReactionsBar";
-import { FormattedDate } from "./FormattedDate";
-import { useCountdownForm } from "../lib/useCountdownForm";
-import { CountdownIndicator } from "./CountdownIndicator";
-import { useCommentForm } from "../lib/useCommentForm";
+import { useAuth } from "@/src/context/AuthContext";
+import { Comment, CommentReply } from "@/src/data/opinions";
+import { ReactionType } from "@/src/types/reaction";
+import { ReactionsBar } from "@/src/components/ReactionsBar";
+import { FormattedDate } from "@/src/components/FormattedDate";
+import { useCountdownForm } from "@/src/lib/useCountdownForm";
+import { CountdownIndicator } from "@/src/components/CountdownIndicator";
+import { useCommentForm } from "@/src/lib/useCommentForm";
 
 interface CommentListProps {
   comments: Comment[];
@@ -30,7 +30,7 @@ interface ReplyFormProps {
 }
 
 function ReplyForm({ onSubmit }: ReplyFormProps) {
-  const { user, isLoaded } = useAuth();
+  const { user } = useAuth();
   const { agree, disagree, error, hasAgree, setAgree, setDisagree, handleReplySubmit, reset } = useCommentForm({
     onSubmit: (comment) => {
       onSubmit({
@@ -50,7 +50,7 @@ function ReplyForm({ onSubmit }: ReplyFormProps) {
     handleReplySubmit(user);
   };
 
-  if (!isLoaded || !user) return null;
+  if (!user) return null;
 
   return (
     <form onSubmit={onFormSubmit} className="mt-4 flex flex-col gap-3 rounded-lg border border-gray-200 bg-gray-100 p-3 dark:border-gray-600 dark:bg-gray-800">

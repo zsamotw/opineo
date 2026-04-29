@@ -1,9 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { useAuth } from "../context/AuthContext";
-import { useCommentForm } from "../lib/useCommentForm";
+import { useAuth } from "@/src/context/AuthContext";
+import { useCommentForm } from "@/src/lib/useCommentForm";
 
 interface CommentFormProps {
   onSubmit: (comment: {
@@ -35,14 +34,16 @@ export function CommentForm({
 }: CommentFormProps) {
   const [quoteFromCopy, setQuoteFromCopy] = useState("");
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
-  const { user, isLoaded } = useAuth();
-  
+  const { user } = useAuth();
+
   const initialQuote = externalSelectedQuote || quoteFromCopy;
   const { agree, disagree, error, hasAgree, setAgree, setDisagree, handleSubmit, setSelectedQuote } =
     useCommentForm({
       initialSelectedQuote: initialQuote,
       onSubmit,
     });
+
+  if (!user) return null;
 
   const onFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,8 +69,7 @@ export function CommentForm({
 
   return (
     <div className="border-t border-gray-200 p-3 pt-3 dark:border-gray-700">
-      {!isLoaded ? null : user ? (
-        <form onSubmit={onFormSubmit} className="flex flex-col gap-3 p-3">
+      <form onSubmit={onFormSubmit} className="flex flex-col gap-3 p-3">
           <details open={isQuoteOpen} className="rounded-lg bg-white p-3 text-base dark:bg-gray-700">
             <summary 
               onClick={(e) => {
@@ -132,14 +132,6 @@ export function CommentForm({
             Wyślij
           </button>
         </form>
-      ) : (
-        <p className="text-base text-gray-500 dark:text-gray-400">
-          <Link href="/login" className="text-blue-600 hover:underline dark:text-blue-400">
-            Zaloguj się
-          </Link>{" "}
-          aby dodać komentarz
-        </p>
-      )}
     </div>
   );
 }

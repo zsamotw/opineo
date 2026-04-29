@@ -1,7 +1,7 @@
 "use client";
 
-import { Reaction } from "../data/opinions";
-import { ReactionType } from "../types/reaction";
+import { Reaction } from "@/src/data/opinions";
+import { ReactionType } from "@/src/types/reaction";
 
 interface ReactionsBarProps {
   reactions: Reaction[];

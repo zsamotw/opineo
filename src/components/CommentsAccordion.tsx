@@ -1,13 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Comment, CommentReply } from "../data/opinions";
-import { useCountdownForm } from "../lib/useCountdownForm";
-import { CountdownIndicator } from "./CountdownIndicator";
-import { CommentList } from "./CommentList";
-import { CommentForm } from "./CommentForm";
-import { ChatBubbleIcon } from "./Icons";
-import { ReactionType } from "../types/reaction";
+import { Comment, CommentReply } from "@/src/data/opinions";
+import { useCountdownForm } from "@/src/lib/useCountdownForm";
+import { CountdownIndicator } from "@/src/components/CountdownIndicator";
+import { CommentList } from "@/src/components/CommentList";
+import { CommentForm } from "@/src/components/CommentForm";
+import { ChatBubbleIcon } from "@/src/components/Icons";
+import { ReactionType } from "@/src/types/reaction";
 
 interface CommentsAccordionProps {
   comments: Comment[];

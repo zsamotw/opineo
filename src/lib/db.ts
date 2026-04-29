@@ -1,4 +1,4 @@
-import { Opinion, Reaction } from "../data/opinions";
+import { Opinion, Reaction } from "@/src/data/opinions";
 
 export interface User {
   id: string;
@@ -57,8 +57,27 @@ export async function addUser(user: User): Promise<void> {
 }
 
 export async function findUserByEmail(email: string): Promise<User | undefined> {
-  const users = await getUsers();
-  return users.find((user) => user.email === email);
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(USERS_STORE, "readonly");
+    const store = transaction.objectStore(USERS_STORE);
+    const request = store.openCursor();
+    let foundUser: User | undefined;
+    
+    request.onerror = () => reject(request.error);
+    request.onsuccess = () => {
+      const cursor = request.result as IDBCursorWithValue | null;
+      if (cursor) {
+        const user = cursor.value as User;
+        if (user.email === email) {
+          foundUser = user;
+        }
+        cursor.continue();
+      } else {
+        resolve(foundUser);
+      }
+    };
+  });
 }
 
 export async function getOpinions(): Promise<Opinion[]> {
